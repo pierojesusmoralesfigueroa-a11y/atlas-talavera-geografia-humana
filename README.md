@@ -82,3 +82,10 @@ Para prueba local: en la carpeta extraída ejecutar `py -m http.server 8002` y a
 - **M12:** imagen y PDF A3 aportados, accesibles desde `Talavera_M12_A3.jpg` y `Talavera_M12_original_A3.pdf` en la raíz.
 
 La V14 conecta las rutas reales del repositorio. El PDF original del M01 sigue siendo un archivo proporcionado en la conversación, no se afirma haberlo alojado en GitHub. Para evitar caché, se usan consultas `?v=14`.
+
+
+## Atlas V15 — 12 informes técnicos asociados a sus mapas
+
+En la tarjeta de «Lectura e interpretación» de cada mapa (M01–M12) existe el botón **Ver informe técnico**. Se abre una ficha con objetivo, fuentes, datos, procedimientos de ArcGIS Pro, resultados e interpretación y limitaciones. La ficha puede imprimirse como PDF desde el navegador («Imprimir / Guardar PDF») o descargarse como texto. Los procedimientos están resumidos del informe técnico actualizado y las láminas proporcionadas; no se fabricaron registros de geoprocesamiento inexistentes. Las fechas de corte de algunas bases sectoriales quedan por confirmar antes de entregar.
+
+Archivo independiente: `atlas_fichas.js`. Las 12 fichas están integradas en la misma página estática y no requieren servidor adicional.
