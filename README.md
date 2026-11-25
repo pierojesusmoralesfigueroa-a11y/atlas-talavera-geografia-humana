@@ -1,43 +1,54 @@
-# Atlas geográfico-social de Talavera · V11
+# Atlas Geográfico-Social de Talavera · V12
 
-**Universidad Nacional Mayor de San Marcos · Geografía Humana · 2026-II**
+**Universidad Nacional Mayor de San Marcos (UNMSM) · Geografía Humana · 2026-II**
 
-Atlas web cartográfico y académico para el distrito de Talavera, provincia de Andahuaylas, Apurímac. Proyecto independiente del atlas Lima–Satipo, publicado como aplicación HTML/JavaScript estática con Leaflet y capas GeoJSON locales.
+Aplicación cartográfica **estática**, publicada con GitHub Pages, HTML/CSS/JavaScript y Leaflet. Su propósito es presentar 12 temas geográficos de Talavera, Andahuaylas, Apurímac, con datos espaciales verificables e interpretación comprensible.
 
-## Contenido
+## Inventario de información
 
-- Doce mapas temáticos (M01–M12) y sus láminas de referencia.
-- 21 capas vectoriales de origen SIG y dos rásteres temáticos.
-- M02: 67 centros poblados con círculos proporcionales a habitantes; densidad de 203 manzanas urbanas.
-- M04: 67 centros por distancia a la salud, y cobertura de 72 establecimientos en área de análisis (14 ubicados dentro del distrito de Talavera).
-- M05: 67 centros por distancia a primaria o secundaria; 60 locales educativos.
-- M07: distancias a vías principales y redes viales según jerarquía.
-- M11: cinco recursos documentados por MINCETUR, con ubicación geográfica y fichas externas de consulta.
-- M09/M10/M12: comparación estadística a escala distrital con el universo de 20 distritos.
+- **M01–M12:** 12 mapas temáticos con láminas de referencia; 21 GeoJSON vectoriales y 2 rásteres originales del análisis SIG, conservados sin modificar en V12.
+- **M02:** 67 centros poblados simbolizados por población y 203 manzanas urbanas con atributos censales (2017).
+- **M04:** 67 centros poblados y clasificación en cuatro intervalos de distancia euclidiana a establecimientos de salud; 72 servicios en el ámbito de análisis, de los cuales 14 se encuentran dentro de Talavera.
+- **M05:** 67 centros, distancias a primaria/secundaria y 60 locales educativos.
+- **M07:** 67 centros clasificados por proximidad a vías principales, además de redes viales jerarquizadas.
+- **M08:** dos superficies ráster categóricas de susceptibilidad de INGEMMET: movimientos en masa e inundación.
+- **M09/M10/M12:** indicadores comparativos de los 20 distritos de la provincia de Andahuaylas, por UBIGEO.
+- **M11:** cinco recursos del inventario MINCETUR con localización y enlace a su ficha de consulta.
 
-## Novedades de V11
+## Novedades V12
 
-- Etiquetas de localidades adaptables al zoom, evitando las superposiciones más evidentes.
-- Controles de legibilidad: **etiquetas** y **tamaño de símbolos**.
-- Al seleccionar clases de proximidad, se resaltan los centros de esa clase sin ocultar los demás.
-- Red vial y símbolos cartográficos más equilibrados.
-- Diseño general renovado para escritorio y móvil.
-- Botón **Descargar mapa** con formatos **PNG de alta resolución (3300×2160)** y **SVG vectorial**, además de **GeoJSON**.
+1. **Lectura geográfica para los 12 mapas:** panel de objetivos, explicación territorial, advertencias sobre los alcances de cada variable y fuentes. En M02, M04, M05 y M07, los textos estadísticos se derivan de la capa GeoJSON cargada; la barra de proximidad cuenta realmente las entidades por clase.
+2. **Comparador de 67 localidades:** cruza cuatro archivos GeoJSON por código `CODIGO` y permite consultar salud, primaria, secundaria y vías, ordenar por mayor distancia, buscar centros, ubicarlos en M04 y descargar CSV. No estima rutas.
+3. **Clasificación de coropletas:** opción entre intervalos iguales y cuantiles (cinco clases) para los mapas temáticos numéricos, sin cambiar el valor del indicador original. M12 conserva sus cortes predefinidos por defecto.
+4. **Etiquetas y legibilidad:** nombres en los mapas distritales M03/M09/M10/M12, etiquetado contextual de coberturas en M06 y símbolos de servicios al acercar. La densidad de etiquetas depende del zoom y del modo elegido.
+5. **Interacción:** buscador con sugerencias de temas y entidades de la vista; enlaces para compartir tema, escala, posición, modo, clasificación, etiquetas y tamaño de símbolos; modo presentación a pantalla más amplia (salida con `Esc`).
+6. **Ficha imprimible:** botón «Imprimir ficha / PDF» abre la opción de impresión del navegador con indicadores, interpretación, advertencias y fuentes. Para PDF el usuario debe elegir «Guardar como PDF».
+7. **Exportación mejorada:** lámina PNG (3300 × 2160), SVG editable y GeoJSON. Ahora **M08 puede incorporar el PNG ráster local** del análisis en la exportación de la vista, acompañado de su leyenda temática. Los mosaicos externos OSM/OpenTopoMap siguen excluidos.
+8. **Interfaz:** jerarquía tipográfica, paleta consistente, contraste de clases de proximidad, paneles reorganizados y ajustes para pantallas pequeñas y preferencias de movimiento reducido.
 
-### Exportación y límites
+## Limitaciones metodológicas y cartográficas
 
-La descarga PNG/SVG crea una lámina temática desde las geometrías reales del visor, con título, escala, norte, leyenda y fuentes. No incrusta el mapa base externo de OSM/OpenTopoMap. Es un **mapa temático vectorial**, no una captura exacta del lienzo web. El raster del mapa M08 tampoco se exporta en PNG/SVG: use la lámina original o el archivo ráster de origen si necesita reproducirlo íntegramente. La escala se deriva de la vista Web Mercator y es gráfica aproximada; la exportación no constituye una hoja cartográfica certificada.
+- **Distancias Near:** euclidianas, en línea recta. **No representan recorrido, tiempo de viaje, transitabilidad ni disponibilidad real de servicios**. Las clases de primaria, secundaria, salud y vías tienen umbrales *diferentes*; es válido comparar los kilómetros, no equiparar un color a la misma distancia en todas las materias.
+- **M02:** población por círculo y densidad urbana por manzana son variables con denominadores diferentes.
+- **M08:** susceptibilidad no es riesgo ni probabilidad temporal de afectación. El ráster tiene extensión y resolución específicas y su simbología reproduce sus categorías; la exportación temática NO incorpora el mapa base externo.
+- **M12:** `POB_SIM` es una estimación reprocesada; separar su valor de los intervalos de confianza oficiales y los grupos robustos.
+- **M10:** lengua materna no equivale a bilingüismo. Conservar la precisión temporal de la fuente.
+- **M11:** un punto de festividad puede ser referencial; las redes viales mostradas no constituyen rutas turísticas oficializadas.
+- **Exportación:** compone una lámina en Web Mercator basada en la extensión visible del visor con cartografía propia y leyenda. **No es una carta certificada** ni una captura exacta del mosaico de mapa base. La escala es una referencia gráfica aproximada.
 
-Las clases sanitarias, educativas y viales describen **distancia euclidiana (Near)**, no recorrido vial ni tiempos de viaje. Conserve los años y escalas originales al comparar indicadores. Verifique las licencias de redistribución y los créditos antes de uso público o comercial.
+## Publicación
 
-## Publicar
+Ver [PUBLICAR_EN_GITHUB.md](PUBLICAR_EN_GITHUB.md). El repositorio correcto es `pierojesusmoralesfigueroa-a11y/atlas-talavera-geografia-humana`; **no subir al atlas de Lima–Satipo**.
 
-Lee [PUBLICAR_EN_GITHUB.md](PUBLICAR_EN_GITHUB.md) para las instrucciones exactas de actualización. Repositorio correcto: `pierojesusmoralesfigueroa-a11y/atlas-talavera-geografia-humana`.
+Para prueba local: en la carpeta extraída ejecutar `py -m http.server 8002` y abrir `http://localhost:8002/?v=12`. Leaflet y las bases cartográficas necesitan internet; los GeoJSON y los rásteres están incluidos localmente.
 
-## Probar localmente
+## Archivos principales
 
-En la carpeta descomprimida abre una terminal y ejecuta `py -m http.server 8002`. Visita `http://localhost:8002/?v=11` y prueba M02, M04, M05, M07 y el exportador. Internet es necesario para cargar la biblioteca Leaflet y los mosaicos base.
+- `index.html`: interfaz completa y paneles de consulta.
+- `styles.css`: estilos y diseño adaptable.
+- `app.js`: mapas, capas GeoJSON, simbología, filtros y etiquetas.
+- `atlas_export.js`: exportación cartográfica vectorial/ráster a PNG y SVG.
+- `atlas_v12.js`: interpretación, comparación, CSV, búsqueda, vínculos de consulta, presentación y ficha PDF imprimible.
+- `data/` y `assets/`: información SIG local, gráficos, láminas e íconos.
 
-## Fuentes institucionales
-
-INEI, MINSA/SUSALUD, MINEDU, MTC/Provías, MINAM, MIDAGRI, INGEMMET, MINCETUR y capas administrativas del proyecto. La base primaria y los rangos se describen en la documentación y láminas correspondientes.
+**Fuentes institucionales del proyecto:** INEI, MTC/Provías, MINEDU, MINSA/SUSALUD, MINAM, MIDAGRI, INGEMMET, MINCETUR y cartografía administrativa. Revisar los metadatos y licencias originales antes de redistribuir información de terceros.

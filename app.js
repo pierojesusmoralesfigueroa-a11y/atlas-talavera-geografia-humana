@@ -1,5 +1,5 @@
 'use strict';
-/* Atlas Talavera V11 · GitHub Pages. Solo se muestran geometrías verdaderas
+/* Atlas Talavera V12 · GitHub Pages. Solo se muestran geometrías verdaderas
    exportadas desde los GeoParquet originales. Las tablas no crean polígonos. */
 const catalog = [
  ['M01','Localización y centros poblados','Localización','Distribución de asentamientos y capital distrital'],
@@ -49,14 +49,14 @@ const variablePresets={
 };
 let map=null,baselayer=null,manifest=null,stats=[],statByCode=new Map(),geoCache=new Map(),mapLayers=[],activeData=null,selectedTopic='M01',selectedVariable='',activeRender=0,loadedFeatures=[],currentLayers=new Set(),rasterLayers=[],lastLayerTheme=null,tourismFeatureLayers=new Map(),selectedResource=null,urbanInsetMap=null,featureIndex=new Map();
 let atlasLabelCandidates=[],atlasLabelLayers=[],atlasSymbolScale=1,atlasLabelsMode='principales';
-const labelEligible=new Set(['centros_pob','centros_salud_dist','dist_primaria','dist_secundaria','dist_vial','centros']);
+const labelEligible=new Set(['centros_pob','centros_salud_dist','dist_primaria','dist_secundaria','dist_vial','centros','centros_susceptibilidad','salud','locales_educativos']);
 const $num=(v,d=2)=>{const n=Number(v);return Number.isFinite(n)?new Intl.NumberFormat('es-PE',{maximumFractionDigits:d}).format(n):'Sin dato'};
 function showMessage(t){$('mapMessage').textContent=t||'';$('mapMessage').hidden=!t;}
 function setMetrics(items){$('metrics').innerHTML=items.map(x=>`<div class="metric"><b>${esc(x[0])}</b><small>${esc(x[1])}</small></div>`).join('')}
 function setDetails(items){$('details').innerHTML=items.map(a=>`<div><b>${esc(a[0])}</b>: ${esc(a[1])}</div>`).join('')}
 function legend(rows,title,footer=''){$('legend').dataset.mode='standard';$('legend').innerHTML=`<h3>${esc(title)}</h3>`+rows.map(x=>`<div class="legendrow">${x[2]?`<span class="legend-bubble-space"><span class="legend-bubble" style="width:${x[2]}px;height:${x[2]}px;background:${x[1]}"></span></span>`:`<span class="chip" style="background:${x[1]}"></span>`}<span>${esc(x[0])}</span></div>`).join('')+(footer?`<p class="micro">${esc(footer)}</p>`:'')}
 function initMap(){if(!window.L){showMessage('Leaflet no pudo cargarse. Revisa la conexión a internet.');return}
- map=L.map('map',{preferCanvas:true,zoomControl:true}).setView([-13.63,-73.44],11);for(const [name,z] of [['fillPane',403],['hydroPane',417],['roadPane',431],['outlinePane',440],['pointPane',454]]){map.createPane(name);map.getPane(name).style.zIndex=z;}map.createPane('rasterPane');map.getPane('rasterPane').style.zIndex=414;map.getPane('rasterPane').style.pointerEvents='none';baselayer=L.tileLayer(urls.osm,{maxZoom:19,attribution:attributions.osm}).addTo(map);L.control.scale({imperial:false,position:'bottomleft'}).addTo(map);map.on('moveend zoomend resize',()=>scheduleAtlasLabels())}
+ map=L.map('map',{preferCanvas:true,zoomControl:true}).setView([-13.63,-73.44],11);for(const [name,z] of [['fillPane',403],['hydroPane',417],['roadPane',431],['outlinePane',440],['pointPane',454]]){map.createPane(name);map.getPane(name).style.zIndex=z;}map.createPane('rasterPane');map.getPane('rasterPane').style.zIndex=414;map.getPane('rasterPane').style.pointerEvents='none';baselayer=L.tileLayer(urls.osm,{maxZoom:19,attribution:attributions.osm}).addTo(map);L.control.scale({imperial:false,position:'bottomleft'}).addTo(map);map.on('moveend zoomend resize',()=>{scheduleAtlasLabels();window.AtlasV12?.updateScaleStatus?.()})}
 function baseChange(){if(!map)return;const k=$('basemap').value;if(baselayer){map.removeLayer(baselayer);baselayer=null;}if(k==='none')return;if(!urls[k])return;baselayer=L.tileLayer(urls[k],{maxZoom:19,attribution:attributions[k]}).addTo(map);baselayer.bringToBack()}
 function clearMap(){clearAtlasLabels();for(const x of [...mapLayers,...rasterLayers])if(map)map.removeLayer(x);mapLayers=[];rasterLayers=[];activeData=null;loadedFeatures=[];featureIndex.clear()}
 function showUrbanInset(){const card=$('urbanInsetCard');if(!card)return;card.hidden=selectedTopic!=='M11';
@@ -152,7 +152,7 @@ const distanceClassifications={
  dist_secundaria:{name:'Proximidad a educación secundaria',thresholds:[1.167094,2.004886,2.994324],min:.035522,max:4.469997},
  dist_vial:{name:'Proximidad a la red vial principal',thresholds:[.462318,1.345644,2.770595],min:.001503,max:5.402275}
 };
-const distanceColors=['#156F9B','#12977F','#DC921A','#C44B5F'];
+const distanceColors=['#0072B2','#009E73','#E69F00','#B45B83']; // Contrastes y codificación estable para las cuatro clases.
 const distanceNames=['Muy cercana','Cercana','Intermedia','Más alejada'];
 let lastEducationMode='primaria';
 const nearKm=(id,p)=>id==='centros_salud_dist'?(Number.isFinite(Number(p.DIST_KM))?Number(p.DIST_KM):Number(p.NEAR_DIST)/1000):Number(p.NEAR_DIST)/1000;
@@ -212,16 +212,16 @@ function drawAtlasLabels(){if(!map||!window.L)return;
  const maxLabels=mode==='todas'?(z<12?26:z<14?44:80):top;
  const selected=$('proximityFilter')?.value||'all';
  const seen=new Set(),positions=[];
- const sorted=atlasLabelCandidates.filter(c=>{if(!c.layer||!map.hasLayer||!map.hasLayer(c.layer)&&!mapLayers.some(g=>g.hasLayer?.(c.layer)))return false;return true;}).sort((a,b)=>{
+ const sorted=atlasLabelCandidates.filter(c=>{if(['salud','locales_educativos'].includes(c.id)&&(mode!=='todas'||z<14))return false;if(c.id==='cobertura_vegetal'&&z<12)return false;if(!c.layer||!map.hasLayer||!map.hasLayer(c.layer)&&!mapLayers.some(g=>g.hasLayer?.(c.layer)))return false;return true;}).sort((a,b)=>{
   const af=selected!=='all'&&a.category===Number(selected)?1:0,bf=selected!=='all'&&b.category===Number(selected)?1:0;
   if(af!==bf)return bf-af;return b.pop-a.pop||a.name.localeCompare(b.name,'es');});
- for(const c of sorted){if(atlasLabelLayers.length>=maxLabels)break;const key=c.name.toUpperCase();if(seen.has(key))continue;const pt=map.latLngToContainerPoint(c.layer.getLatLng());
+ for(const c of sorted){if(atlasLabelLayers.length>=maxLabels)break;const key=c.name.toUpperCase();if(seen.has(key))continue;const at=c.latLng||(typeof c.layer.getLatLng==='function'?c.layer.getLatLng():null);if(!at)continue;const pt=map.latLngToContainerPoint(at);
   if(pt.x<24||pt.y<45||pt.x>size.x-24||pt.y>size.y-48)continue;
   const w=Math.min(176,Math.max(58,c.name.length*6.2+20)),h=26;
   const rect={x:pt.x-w/2,y:pt.y-44,w,h};if(rect.x<3||rect.x+rect.w>size.x-3||rect.y<6)continue;
   if(positions.some(p=>rect.x<p.x+p.w+8&&rect.x+rect.w+8>p.x&&rect.y<p.y+p.h+6&&rect.y+rect.h+6>p.y))continue;
   const t=L.tooltip({permanent:true,direction:'top',offset:[0,-10],className:'atlas-v11-map-label',opacity:1,interactive:false})
-   .setLatLng(c.layer.getLatLng()).setContent(esc(c.name)).addTo(map);
+   .setLatLng(at).setContent(esc(c.name)).addTo(map);
   atlasLabelLayers.push(t);positions.push(rect);seen.add(key);
  }
  $('labelCount').textContent=`${atlasLabelLayers.length} etiquetas visibles · escala dinámica`;
@@ -259,14 +259,14 @@ function attractivePopup(p,info){const main=normalizedLabel(p)||info.nombre;cons
  return `<div class="atlas-popup"><span class="popup-eyebrow">${esc(info.nombre)}</span><h3>${esc(main)}</h3>${entries.map(([k,v])=>`<div class="popup-attribute"><span>${esc(k)}</span><strong>${esc(typeof v==='number'?$num(v,3):v)}</strong></div>`).join('')}${officialLink}</div>`;
 }
 function numericBreaks(features,k){let arr=features.map(f=>Number(f.properties?.[k])).filter(Number.isFinite).sort((a,b)=>a-b);if(!arr.length)return null;
- const lo=arr[0],hi=arr[arr.length-1];if(hi<=lo)return [lo,lo,lo,lo,lo,hi];return [0,1,2,3,4,5].map(i=>lo+(hi-lo)*i/5)}
+ const lo=arr[0],hi=arr[arr.length-1];if(hi<=lo)return [lo,lo,lo,lo,lo,hi];if(window.AtlasV12?.classificationMethod?.()==='quantiles'){return [0,1,2,3,4,5].map(i=>arr[Math.min(arr.length-1,Math.floor(i*(arr.length-1)/5))]);}return [0,1,2,3,4,5].map(i=>lo+(hi-lo)*i/5)}
 function colorFor(v,breaks,colors){if(v===null||v===undefined||v===''||!Number.isFinite(Number(v))||!breaks)return '#d5dddd';const n=Number(v);
  for(let i=0;i<5;i++)if(n<=breaks[i+1]||i===4)return colors[i];return colors[4]}
 function prepareStyle(info,features){let field=selectedTopic==='M02'&&info.id==='manzanas'?selectedVariable:selectedTopic==='M09'||selectedTopic==='M10'||selectedTopic==='M12'||selectedTopic==='M03'?selectedVariable:(info.id===primaryPref[selectedTopic]&&selectedVariable?selectedVariable:(info.value||info.category));
  if(field==='auto')field=info.value;
  const isGroups=field==='GRUPO_APU', isCat=!isGroups&&info.categorical?.includes(field)&&!info.numeric?.includes(field);
  const palette=selectedTopic==='M10'&&field==='PCT_CASTELLANO'?spanish:selectedTopic==='M12'?copper:sea;
- let br=isGroups?null:selectedTopic==='M12'&&field==='POB_SIM'?[25,35,42,49,55,60]:numericBreaks(features,field);
+ let br=isGroups?null:selectedTopic==='M12'&&field==='POB_SIM'&&window.AtlasV12?.classificationMethod?.()!=='quantiles'?[25,35,42,49,55,60]:numericBreaks(features,field);
  const classes=field?Array.from(new Set(features.map(f=>String(f.properties?.[field]??'Sin dato')))).slice(0,20):[];
  const colors=isGroups?['#9D6149','#D3A26B','#9ECDBB']:palette;
  const color=v=>isGroups?(['#9D6149','#D3A26B','#9ECDBB'][Number(v)-1]||'#cbd1d2'):isCat?categoriesColors[Math.max(0,classes.indexOf(String(v)))%categoriesColors.length]:colorFor(v,br,colors);
@@ -276,7 +276,7 @@ function prepareStyle(info,features){let field=selectedTopic==='M02'&&info.id===
  else if(br){rows=Array.from({length:5},(_,i)=>[`${$num(br[i])} – ${$num(br[i+1])}`,colors[i]])}
  return {field,color,rows,kind:isCat?'categorical':isGroups?'groups':'numeric'} }
 function pointStyle(info,p,prep){const name=info.estilo||'';
- if(distanceClassifications[info.id]){const i=classIndex(info.id,p),chosen=$('proximityFilter')?.value??'all',focus=chosen==='all'||String(i)===chosen;return {radius:(focus?8.4:6.8)*atlasSymbolScale,color:focus?'#fff':'#66777A',weight:focus?2.4:1,fillColor:i<0?'#929C9D':distanceColors[i],fillOpacity:focus?.98:.26,opacity:focus?1:.45};}
+ if(distanceClassifications[info.id]){const i=classIndex(info.id,p),chosen=$('proximityFilter')?.value??'all',focus=chosen==='all'||String(i)===chosen;return {radius:(focus?7.8:6.8)*atlasSymbolScale,color:focus?'#fff':'#3D5966',weight:focus?2.3:1.4,fillColor:i<0?'#929C9D':distanceColors[i],fillOpacity:focus?.97:.48,opacity:focus?1:.7};}
  let color=name==='capital'?'#B76A47':name==='health'?'#2C9F97':name==='education'?'#D3A26B':name==='size_points'?'#24779C':'#438F88';
  if(name==='education'){const txt=[p.NIVEL_MAPA,p.NIVELES_LO,p.NIVEL,p.NIVEL_EDU,p.MODALIDAD].filter(Boolean).join(' ').toLowerCase();if(txt.includes('multinivel'))color='#B06D79';else if(txt.includes('inicial'))color='#DBA152';else if(txt.includes('primaria'))color='#277B89';else if(txt.includes('secundaria'))color='#7965A7'}
  const radius=(name==='capital'?9:info.id==='centros_pob'?circleRadius(p.POBLACION):selectedTopic==='M11'&&info.id==='centros'?3.2:name==='health'?5.5:name==='education'?5.4:4.8)*atlasSymbolScale;
@@ -310,6 +310,8 @@ function makeLayer(geo,info){if(!map||!geo?.features?.length)return null;
    if(title)l.bindTooltip(esc(title),{sticky:true,direction:'top',opacity:.95});l.bindPopup(attractivePopup(p,info),{maxWidth:310,minWidth:205});
    if(p.CODIGO&&['centros_pob','centros_salud_dist','dist_primaria','dist_secundaria','dist_vial'].includes(info.id))featureIndex.set(String(p.CODIGO),l);
    if(labelEligible.has(info.id)&&title&&typeof l.getLatLng==='function')atlasLabelCandidates.push({layer:l,id:info.id,name:title,pop:Number(p.POBLACION)||0,km:distanceClassifications[info.id]?nearKm(info.id,p):null,category:distanceClassifications[info.id]?classIndex(info.id,p):-1});
+   if(info.id==='provincia_estadisticas'&&p.DISTRITO&&typeof l.getBounds==='function'&&l.getBounds().isValid())atlasLabelCandidates.push({layer:l,id:info.id,name:p.DISTRITO,pop:(p.UBIGEO==='030216'?1000000:Number(p.Poblacion_2017)||0),category:-1,latLng:l.getBounds().getCenter()});
+   if(info.id==='cobertura_vegetal'&&p.CobVeg2013&&typeof l.getBounds==='function'&&l.getBounds().isValid())atlasLabelCandidates.push({layer:l,id:info.id,name:p.CobVeg2013,pop:Number(p.AREA_HA)||0,category:-1,latLng:l.getBounds().getCenter()});
    if(distanceClassifications[info.id]){l.unbindTooltip();l.bindTooltip(esc(`${title} · ${distanceClassName(info.id,p)} (${ $num(nearKm(info.id,p),2)} km)`),{sticky:true,direction:'top',opacity:.98,className:'distance-map-tooltip'});}
    if(info.id==='turismo'){tourismFeatureLayers.set(String(p.COD_RECURSO),l);if(p.GRUPO_MAPA!=='Urbano-cultural'){l.unbindTooltip();l.bindTooltip(esc(title),{permanent:true,direction:'top',offset:[0,-22],className:'tourism-map-label'});}}
    l.on('click',()=>{if(info.id==='turismo')selectedResource=String(p.COD_RECURSO);if(p.UBIGEO&&statByCode.has(String(p.UBIGEO))&&['M03','M09','M10','M12'].includes(selectedTopic))detailsDistrict(String(p.UBIGEO));else setDetails([['Nombre',normalizedLabel(p)||info.nombre],...informativeProperties(p,info),...Object.entries(p).filter(([k,v])=>v!==null&&v!==undefined&&!['DESCRIPCIO','NOMBRE'].includes(k)).slice(0,5).map(([k,v])=>[k.replaceAll('_',' '),typeof v==='number'?$num(v):v])]);});
@@ -347,12 +349,12 @@ async function drawLayers({resetExtent=false}={}){const serial=++activeRender;cl
    else legend([],'Clasificación no disponible','Comprueba los datos de proximidad de este tema.');
  }
  else if(selectedTopic==='M11')legend([['Patrimonio urbano (2)','#438F88'],['Sitio arqueológico (1)','#D3A26B'],['Sitio natural (1)','#587E59'],['Festividad (1)','#805A9F']],'Recursos turísticos · MINCETUR','Selecciona un recurso en el mapa o en las tarjetas de exploración.');
- else if(primaryLegend?.prep?.rows?.length&&['choropleth','categories'].includes(primaryLegend.info.estilo))legend(primaryLegend.prep.rows,primaryLegend.prep.field||'Categorías','Clasificación del visor; contrastar con la lámina A3 original.');
+ else if(primaryLegend?.prep?.rows?.length&&['choropleth','categories'].includes(primaryLegend.info.estilo))legend(primaryLegend.prep.rows,primaryLegend.prep.field||'Categorías','Método visible: '+(window.AtlasV12?.classificationMethod?.()==='quantiles'?'cuantiles':'intervalos iguales / escala predefinida')+'. Contrastarlo con la lámina A3 original.');
  else {const colorStyles={boundary:'#183A4B',capital:'#183A4B',points:'#438F88',size_points:'#C97838',river:'#70AEC6',health:'#2C9F97',education:'#D3A26B',road_nacional:'#C97838',road_departamental:'#D3A26B',road_vecinal:'#96A2A5'};
    legend(ids.map(k=>[manifest.capas[k].nombre,colorStyles[manifest.capas[k].estilo]||'#438F88']),'Capas territoriales','Haz clic en las entidades para consultar sus atributos.');}
- if(resetExtent)fit();activeData={type:'FeatureCollection',features:loadedFeatures};scheduleAtlasLabels();}
+ if(resetExtent)fit();activeData={type:'FeatureCollection',features:loadedFeatures};scheduleAtlasLabels();window.AtlasV12?.afterDraw?.({resetExtent});}
  else{activeData=null;legend([],'Cartografía pendiente','Las estadísticas disponibles se muestran en el panel.');
-     showMessage('Los indicadores y la lámina original están disponibles. Para dibujar las geometrías de este mapa en GitHub Pages, ejecuta el exportador incluido con tus GeoParquet reales (consulta README).');}
+     showMessage('Comprueba la disponibilidad de los datos cartográficos de este tema.');window.AtlasV12?.afterDraw?.({resetExtent});}
 }
 
 async function renderTourismCards(){if(selectedTopic!=='M11')return;
@@ -369,13 +371,13 @@ async function renderTourismCards(){if(selectedTopic!=='M11')return;
 }
 function renderTopic(){const row=catalog.find(x=>x[0]===selectedTopic);if(!row)return;
  $('themeCode').textContent=row[0];$('themeTitle').textContent=row[1];$('themeSubtitle').textContent=row[2]+' · Distrito de Talavera, Andahuaylas, Apurímac';
- $('insightTitle').textContent=row[1];$('insightDescription').textContent=themes[selectedTopic].desc;
+ $('insightTitle').textContent=row[1];$('insightDescription').textContent=themes[selectedTopic].desc;window.AtlasV12?.onTopic?.();
  $('sourceInfo').textContent='Fuentes: '+themes[selectedTopic].source;
  $('mapThumb').src='./assets/laminas/'+selectedTopic+'.jpg';
  $('mapThumb').alt='Lámina de referencia '+selectedTopic;
  $('mapThumb').onerror=()=>{$('mapThumb').style.display='none'};
  $('mapThumb').onload=()=>{$('mapThumb').style.display='block'};
- setMetrics(themes[selectedTopic].metrics);$('classSummary').hidden=true;$('classSummary').innerHTML='';$('populationRank').hidden=true;$('tourismExplorer').hidden=selectedTopic!=='M11';$('resourceStrip').hidden=selectedTopic!=='M11';showMessage('');setDetails([['Consulta','Selecciona una entidad del mapa o un distrito en el panel lateral']]);nav();layerCheckboxes();setupView();setupVars();setupCategory();setupProximityFilter();updateMapGuide();statisticsPanel();renderTourismCards();showUrbanInset();$('legend').hidden=false;syncLegendButton();drawLayers({resetExtent:true});}
+ setMetrics(themes[selectedTopic].metrics);$('classSummary').hidden=true;$('classSummary').innerHTML='';$('populationRank').hidden=true;$('tourismExplorer').hidden=selectedTopic!=='M11';$('resourceStrip').hidden=selectedTopic!=='M11';showMessage('');setDetails([['Consulta','Selecciona una entidad del mapa o un distrito en el panel lateral']]);nav();layerCheckboxes();setupView();setupVars();setupCategory();setupProximityFilter();window.AtlasV12?.restoreThemeControls?.();updateMapGuide();statisticsPanel();renderTourismCards();showUrbanInset();$('legend').hidden=false;syncLegendButton();drawLayers({resetExtent:true});}
 function syncLegendButton(){const shown=!$('legend').hidden;$('toggleLegend').textContent=shown?'Ocultar leyenda':'Mostrar leyenda';$('toggleLegend').setAttribute('aria-expanded',String(shown));}
 function preview(){const row=catalog.find(x=>x[0]===selectedTopic);$('modalTitle').textContent=row[0]+' · '+row[1];const img='./assets/laminas/'+selectedTopic+'.jpg';
  const isGenerated=['M10','M11','M12'].includes(selectedTopic);
@@ -394,9 +396,10 @@ function about(){ $('modalTitle').textContent='Acerca del Atlas Geográfico-Soci
  $('modalBody').innerHTML='<p>Proyecto académico de Geografía Humana, UNMSM (2026-II), autor: Piero Morales.</p><p>Incluye fuentes INEI, MTC, MINEDU, MINSA/SUSALUD, MINAM, MIDAGRI, INGEMMET y MINCETUR. Los datos proceden de diferentes años y escalas; los atributos se presentan sin inventar desagregación geográfica.</p><p>Esta web de GitHub Pages comparte una identidad visual con el Atlas Lima–Satipo. Las herramientas avanzadas de edición cartográfica permanecen en la aplicación Python.</p><p>Las distancias Near no son recorridos ni tiempos de viaje. M08 representa susceptibilidad, no riesgo. La estimación POB_SIM del M12 es un reprocesamiento de simulaciones del INEI, no una cifra puntual publicada en el Anexo.</p>';$('modal').showModal()}
 async function init(){initMap();
  const [m,s]=await Promise.all([getJSON('data/catalogo_capas.json'),getJSON('data/estadisticas_20.json')]);
- manifest=m||{capas:{},temas:{},rasters:[]};stats=Array.isArray(s)?s:[];if(!m||Object.keys(manifest.capas||{}).length<20)showMessage('No se cargó el catálogo completo V11. Comprueba que abriste esta carpeta desde el servidor HTTP correcto.');statByCode=new Map(stats.map(x=>[String(x.UBIGEO),x]));
- $('qualityStatus').textContent=`V11 · ${stats.length} distritos en tablas · ${Object.keys(manifest.capas||{}).length} capas espaciales preparadas · ${(manifest.rasters||[]).length} rásteres. ${Object.keys(manifest.capas||{}).length<=1?'Ejecuta el exportador para habilitar las capas M01–M10 y M12.':''}`;
+ manifest=m||{capas:{},temas:{},rasters:[]};stats=Array.isArray(s)?s:[];const requestedTheme=new URLSearchParams(location.search).get('map');if(catalog.some(x=>x[0]===requestedTheme))selectedTopic=requestedTheme;if(!m||Object.keys(manifest.capas||{}).length<20)showMessage('No se cargó el catálogo completo V12. Comprueba que abriste esta carpeta desde el servidor HTTP correcto.');statByCode=new Map(stats.map(x=>[String(x.UBIGEO),x]));
+ $('qualityStatus').textContent=`V12 · ${stats.length} distritos en tablas · ${Object.keys(manifest.capas||{}).length} capas espaciales preparadas · ${(manifest.rasters||[]).length} rásteres. ${Object.keys(manifest.capas||{}).length<=1?'Ejecuta el exportador para habilitar las capas M01–M10 y M12.':''}`;
  renderTopic();
+ if(catalog.some(x=>x[0]===requestedTheme)){$('landing').classList.add('hidden');$('landing').setAttribute('aria-hidden','true');if(map)setTimeout(()=>map.invalidateSize(),100);}
  $('enterAtlas').onclick=()=>{$('landing').classList.add('hidden');$('landing').setAttribute('aria-hidden','true');if(map)setTimeout(()=>map.invalidateSize(),100)};
  $('openHome').onclick=()=>{$('landing').classList.remove('hidden');$('landing').removeAttribute('aria-hidden')};
  $('openAbout').onclick=about;$('landingAbout').onclick=about;$('closeModal').onclick=()=>$('modal').close();
@@ -406,7 +409,7 @@ async function init(){initMap();
  $('variable').onchange=()=>{selectedVariable=$('variable').value;statisticsPanel();drawLayers()};
  $('category').onchange=()=>drawLayers();$('viewMode').onchange=changeView;$('proximityFilter').onchange=drawLayers;$('populationLabels').onchange=()=>scheduleAtlasLabels();$('urbanInsetCard').onclick=()=>{if(selectedTopic==='M11'&&map)map.flyTo([-13.65372,-73.42867],16,{duration:.8});};
  $('districtSelect').onchange=()=>{const code=$('districtSelect').value;detailsDistrict(code);let geo=geoCache.get('data/distritos_20.geojson');let f=geo?.features?.find(x=>x.properties?.UBIGEO===code);if(f&&map){const b=L.geoJSON(f).getBounds();if(b.isValid())map.fitBounds(b.pad(.2))}};
- $('search').oninput=search;
+ if(!window.AtlasV12)$('search').oninput=search;
  $('toggleLegend').onclick=()=>{$('legend').hidden=!$('legend').hidden;syncLegendButton();};
  $('toggleTalavera').onchange=()=>drawLayers();$('toggleDistricts').onchange=()=>drawLayers();
  $('mobileMenu').onclick=()=>{const opened=$('sidebar').classList.toggle('open');$('mobileMenu').setAttribute('aria-expanded',String(opened))};

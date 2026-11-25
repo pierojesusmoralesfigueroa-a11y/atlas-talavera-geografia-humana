@@ -244,3 +244,71 @@ body{background:var(--bg);color:var(--ink)}
 .atlas-export-dialog{max-width:min(650px,95vw);min-width:min(550px,94vw)}.atlas-export-dialog p{font-size:13px;color:#536c75;line-height:1.65}.atlas-export-dialog h2{margin:5px 0 2px}.export-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}.export-choices button:first-child{grid-column:1/-1}.atlas-export-feedback{font-size:12px;color:#235b64;min-height:20px;margin-top:12px}.export-choices .button{min-height:42px}
 @media(max-width:870px){.header-tools{gap:6px}.header-tools button{font-size:11px}.legend{width:218px}}
 @media(max-width:520px){.legend{width:194px;max-height:37vh;padding:10px;right:8px}.map-guide{max-width:230px!important}.export-choices{grid-template-columns:1fr}.export-choices button:first-child{grid-column:auto}.workspace-header h1{font-size:23px}.metric b{font-size:18px}}
+
+/* V12 · Diseño institucional y experiencia de lectura geográfica */
+:root{--navy:#173549;--green:#137d77;--teal:#147e83;--sand:#bb925c;--line:#d8e3e1;--bg:#f6f7f4;--ink:#203c49;--muted:#536f78}
+body{background:linear-gradient(180deg,#f8f9f6,#f2f6f3)}
+.topbar{background:linear-gradient(110deg,#102f43 0%,#174f5b 74%,#16595c 100%);box-shadow:0 3px 10px #0d3b4021}
+.workspace-header h1{max-width:910px;text-wrap:balance}
+.header-tools{align-items:center}.header-tools .button{min-height:39px;white-space:nowrap}
+.metric{border-top-color:#c19a62;box-shadow:0 3px 13px #21434b0d;min-width:0}
+.metrics .metric:nth-child(2){border-top-color:#7eaeb6}.metrics .metric:nth-child(3){border-top-color:#86a99d}.metrics .metric:nth-child(4){border-top-color:#b9a5bb}
+.map-holder{border-radius:15px;border:1px solid #b5cfc8;box-shadow:0 11px 36px #15445025}
+.insight{scrollbar-color:#adc4bd transparent}
+.legend{max-height:45vh;max-width:275px;background:#fffefaed;backdrop-filter:blur(6px);box-shadow:0 8px 24px #142f4033}
+.distance-legend-row.active{background:#e9f2f5;border-color:#0072B2}
+.distance-legend-row:hover{background:#f0f6f3}
+.analysis-card{margin:16px 0 18px;border:1px solid #d5e5df;border-radius:13px;padding:14px 13px;background:linear-gradient(150deg,#f6faf7,#fffefa);color:#294a55}
+.analysis-head{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}
+.analysis-badge{font-size:9.5px;background:#e2efe9;color:#266e65;border-radius:16px;padding:5px 8px;font-weight:750}
+.analysis-card h3{margin:12px 0 10px;font-size:14px;line-height:1.4;color:#173c4b}
+.analysis-point{display:flex;gap:7px;margin:9px 0;font-size:11.7px!important;line-height:1.6!important;color:#3a5863!important}
+.analysis-point>span{flex:none;color:#137d77;font-weight:900}
+.analysis-caution{font-size:11px!important;background:#fff9e9;border-left:3px solid #c69b51;border-radius:4px;padding:10px;margin:13px 0;color:#68553d!important}
+.analysis-distribution{margin-top:13px}.analysis-distribution[hidden]{display:none!important}
+.analysis-bar{display:flex;width:100%;height:14px;overflow:hidden;border-radius:9px;border:2px solid white;box-shadow:0 0 0 1px #c9d7d5}.analysis-bar span{display:block;height:100%}
+.analysis-breakdown{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:10px}.analysis-breakdown span{display:flex;align-items:center;gap:5px;font-size:10px;color:#395a67}
+.analysis-breakdown i{width:9px;height:9px;border-radius:50%;flex:none}.analysis-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.analysis-actions .button{font-size:10px;padding:8px 9px}
+.search-suggestions{position:relative;z-index:1000;border:1px solid #b8d5ce;box-shadow:0 8px 16px #113f4a17;border-radius:9px;overflow:hidden;background:white;margin-top:5px}.search-suggestions[hidden]{display:none}
+.search-suggestions button{width:100%;display:block;background:#fff;text-align:left;padding:10px 11px;font-size:11px;border:0;border-bottom:1px solid #e5eeeb;color:#214c5b}.search-suggestions button:hover{background:#edf5f1}.no-search-results{padding:10px;color:#647c82;font-size:11px}
+.atlas-compare-dialog{width:min(1100px,96vw);max-width:min(1100px,96vw);max-height:94vh;padding:22px;border-radius:17px}
+.atlas-compare-dialog .modal-head{margin-bottom:4px}.atlas-compare-dialog .modal-head h2{margin:4px 0 8px;font-size:22px}
+.atlas-compare-dialog>p{font-size:12px;line-height:1.6;color:#536b78}
+.compare-toolbar{display:grid;grid-template-columns:1.2fr 1fr;gap:13px;margin:18px 0}.compare-toolbar label{font-size:11px;color:#3f5e68;font-weight:750;display:grid;gap:6px}
+.compare-toolbar input,.compare-toolbar select{width:100%;background:white;border:1px solid #cedfdb;border-radius:8px;min-height:40px;padding:8px 11px;color:#234857}
+.compare-overview{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;margin:14px 0}
+.compare-overview>div{border:1px solid #d9e7e1;border-radius:10px;padding:10px 8px;background:#f5f9f6;display:grid;gap:3px}
+.compare-overview strong{color:#15536c;font-size:16px}.compare-overview small{color:#5c757e;font-size:10px;line-height:1.35}
+.compare-table-wrap{overflow:auto;max-height:48vh;border:1px solid #dde7e4;border-radius:10px}
+.compare-table{border-collapse:collapse;min-width:660px;width:100%;font-size:11.5px}
+.compare-table thead{position:sticky;top:0;background:#173d4b;color:#fff;z-index:1}
+.compare-table th,.compare-table td{padding:10px 11px;border-bottom:1px solid #e0e8e6;text-align:left;font-variant-numeric:tabular-nums}
+.compare-table tbody tr:nth-child(even){background:#f7faf9}.compare-table tbody tr:hover{background:#e8f5f1}
+.compare-zoom{border:0;background:none;color:#0f6c83;font-size:11px;font-weight:800;text-align:left;text-decoration:underline;cursor:pointer}
+.compare-foot{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-top:13px}.compare-foot span{font-size:11px;color:#5b727b}
+.atlas-status{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:#143a49;color:white;border:1px solid #b1cfbc;border-radius:11px;padding:13px 18px;z-index:9500;box-shadow:0 8px 26px #092b3e4d;font-size:12px;max-width:min(600px,92vw);text-align:center}
+.atlas-status[hidden]{display:none}
+.print-sheet{display:none}
+body.atlas-presentation-mode .sidebar,body.atlas-presentation-mode .insight,body.atlas-presentation-mode .landing{display:none!important}
+body.atlas-presentation-mode .workspace{width:100%;flex:1}
+body.atlas-presentation-mode .workspace-header{padding-top:12px;padding-bottom:8px}
+body.atlas-presentation-mode .metrics{padding-bottom:8px}
+body.atlas-presentation-mode .map-layout{grid-template-columns:1fr;min-height:min(75vh,790px)}
+body.atlas-presentation-mode .map-holder,body.atlas-presentation-mode #map{min-height:calc(100vh - 225px)}
+@media(max-width:1200px){.header-tools{gap:5px}.header-tools .button{font-size:10.5px;padding:9px 10px}.map-layout{grid-template-columns:minmax(0,1fr) 300px}}
+@media(max-width:1050px){.map-layout{grid-template-columns:minmax(0,1fr)}.insight{display:block}.header-tools{max-width:100%}}
+@media(max-width:650px){.header-tools{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}.header-tools .button{width:100%;white-space:normal}.compare-overview{grid-template-columns:repeat(2,minmax(0,1fr))}.compare-toolbar{grid-template-columns:1fr}.atlas-compare-dialog{padding:12px}.atlas-compare-dialog .modal-head h2{font-size:18px}.analysis-actions{flex-direction:column}.map-guide{font-size:10px}}
+@media(max-width:480px){.legend{width:198px;max-height:35vh}.metric{padding:8px 10px}.metrics .metric{min-height:67px}.map-layout{padding:0 8px 9px}.workspace-header{padding:11px 9px}.metrics{padding:0 9px 10px}.bottomline{padding:0 9px 8px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media print{
+ @page{size:A4;margin:15mm}
+ body{background:white!important;color:#172d35!important}
+ .topbar,.shell,.landing,dialog,.atlas-status{display:none!important}
+ .print-sheet{display:block!important;font:12pt/1.5 Arial,sans-serif;color:#183944;max-width:none}
+ .print-sheet header{border-bottom:4px solid #195663;padding:8px 0 20px;margin-bottom:19px}
+ .print-sheet h1{font-size:21pt;margin:13px 0}.print-sheet h2{font-size:13pt;color:#165666;margin-top:23px}
+ .print-sheet header small{font-size:9pt;letter-spacing:1.4px;font-weight:700;color:#367277}
+ .print-sheet p{font-size:10.5pt;margin:9px 0}.print-sheet footer{margin-top:35px;padding-top:15px;border-top:1px solid #cad8d2;font-size:9pt;color:#59717a}
+ .print-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.print-metrics>div{border:1px solid #d4dfdc;padding:12px}
+ .print-metrics strong{display:block;color:#164353;font-size:15pt}.print-metrics span{font-size:9.5pt;color:#4d6b74}
+}
