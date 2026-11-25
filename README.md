@@ -1,3 +1,23 @@
+# Atlas geográfico-social de Talavera · V13 — Láminas A3 integradas
+
+Sitio estático para GitHub Pages basado en la V12. **Esta actualización integra tres PDF A3 proporcionados por el autor:** M10 (lengua materna, INEI 2017), M11 (turismo, MINCETUR) y M12 (pobreza monetaria, INEI 2018).
+
+## Integración de M10, M11 y M12
+
+- **M10:** lámina original de dos mapas y acceso a descarga PDF A3. Se muestran como vistas alternables las variables de lengua materna quechua y castellana; sus **cinco cortes coinciden con las leyendas originales** cuando se utiliza «Rangos originales de la lámina A3». Los valores se calculan a partir de la tabla de 20 distritos ya contenida en V12. Indicadores Talavera: 10 961 quechua, 6 482 castellano, 17 535 personas de 3+ años.
+- **M11:** lámina original con cinco recursos MINCETUR; se mantienen las coordenadas y fichas existentes. Se incorpora galería de **tres fotografías recortadas de la lámina proporcionada** (plaza, Achanchi y Sutoqmachay), con enlaces de selección a los puntos del visor. El punto de la festividad sigue siendo referencial. Las fotografías no tienen crédito individual visible; **verificar los permisos para su difusión pública**.
+- **M12:** lámina original con dos vistas, incidencia estimada y grupos robustos. Se incorporaron exactamente los cinco rangos de incidencia (25–<35, 35–<42, 42–<49, 49–<55, 55–60 %) y la leyenda de grupos robustos con 14/5/1 distritos. Talavera: 30,12 %, IC95 % 20,19–40,05 %, grupo 2. Los valores POB_SIM son estimaciones reprocesadas, no mediciones directas oficiales.
+- **Láminas originales:** `assets/laminas_pdf/M10_original_A3.pdf`, `M11_original_A3.pdf` y `M12_original_A3.pdf`. Se consultan desde «Ver lámina A3» y mediante «Descargar lámina original PDF».
+- **Integridad:** ningún GeoJSON, CSV ni ráster original de V12 se ha alterado. Los demás mapas M01–M09 conservan sus datos.
+
+## Publicación rápida
+
+Abrir exclusivamente `https://github.com/pierojesusmoralesfigueroa-a11y/atlas-talavera-geografia-humana/upload/main`, descomprimir `Actualizacion_Talavera_V12_a_V13.zip` y arrastrar todos sus archivos y carpetas; luego guardar el commit. No subir al repositorio `atlas-lima-satipo-2026`. Tras GitHub Actions en verde, visitar la web y presionar `Ctrl + F5`. **No basta con subir el ZIP comprimido:** debe preservarse la estructura de subcarpetas.
+
+---
+
+## Historial previo (V12)
+
 # Atlas Geográfico-Social de Talavera · V12
 
 **Universidad Nacional Mayor de San Marcos (UNMSM) · Geografía Humana · 2026-II**

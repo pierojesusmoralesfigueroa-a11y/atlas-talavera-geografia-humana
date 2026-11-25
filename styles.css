@@ -312,3 +312,23 @@ body.atlas-presentation-mode .map-holder,body.atlas-presentation-mode #map{min-h
  .print-metrics{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.print-metrics>div{border:1px solid #d4dfdc;padding:12px}
  .print-metrics strong{display:block;color:#164353;font-size:15pt}.print-metrics span{font-size:9.5pt;color:#4d6b74}
 }
+
+
+/* V13 — M10, M11 y M12: integración fiel de las láminas A3 aportadas */
+.metrics.metrics-five{grid-template-columns:repeat(5,minmax(0,1fr))}
+.a3-switch{margin:0 22px 14px;padding:14px 17px;display:flex;justify-content:space-between;align-items:center;gap:16px;border:1px solid #d6e3e2;border-left:4px solid #1e7d82;border-radius:12px;background:#fff;box-shadow:0 4px 15px #143b4310}
+.a3-switch[hidden],.a3-source-note[hidden],.a3-pdf-download[hidden]{display:none!important}
+.a3-switch-head{flex:1;min-width:0}.a3-switch-kicker{font-size:10px;font-weight:850;letter-spacing:.11em;color:#287f81}
+.a3-switch-head p{color:#536e78;font-size:11.5px;line-height:1.5;margin:5px 0 0}
+.a3-switch-actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.a3-switch-btn{min-width:150px;max-width:225px;text-align:left;font-size:11px;font-weight:750;line-height:1.35;padding:10px 12px;border:1px solid #cbdcd9;background:#f5f8f7;border-radius:9px;color:#315561;cursor:pointer;transition:.15s}
+.a3-switch-btn:hover{background:#e9f2f0}.a3-switch-btn.active{background:#ddefec;color:#155d63;border-color:#248484;box-shadow:inset 3px 0 #248484}
+.a3-source-note{padding:10px 12px;background:#eef7f5;border:1px solid #c9e2dc;color:#35606a;font-size:10.5px;line-height:1.5;border-radius:9px}
+.a3-pdf-download{display:flex;text-decoration:none;text-align:center;justify-content:center;align-items:center;margin-top:8px;border-radius:9px;background:#176b70;color:white;padding:11px 12px;font-size:11.5px;font-weight:800}
+.a3-pdf-download:hover{background:#114f58;color:white}.a3-modal-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:12px 0 5px}.a3-modal-actions a{text-decoration:none;display:inline-flex}
+.tour-photo-head{margin-top:18px;padding-top:13px;border-top:1px solid #dbe8e4}.tour-photo-head p{font-size:11px;color:#607681;margin:6px 0 10px}
+.tour-photo-grid{display:grid;gap:10px}.tour-photo-card{display:grid;grid-template-columns:80px 1fr;gap:10px;align-items:center;text-align:left;min-height:69px;border:1px solid #dbe7e2;background:#fff;padding:6px;border-radius:9px;cursor:pointer;color:#27505d;font-size:11px;font-weight:750}
+.tour-photo-card:hover,.tour-photo-card:focus-visible{border-color:#6ca9a3;background:#e9f6f2}.tour-photo-card img{width:80px;height:58px;object-fit:cover;border-radius:5px}.tour-photo-credit{font-size:9.5px!important;line-height:1.45;color:#66777d;margin-top:9px}
+@media(max-width:1240px){.metrics.metrics-five{grid-template-columns:repeat(3,minmax(0,1fr))}.a3-switch{flex-direction:column;align-items:stretch}.a3-switch-actions{justify-content:flex-start}}
+@media(max-width:870px){.metrics.metrics-five{grid-template-columns:repeat(2,minmax(0,1fr))}.a3-switch{margin:0 15px 12px}.a3-switch-btn{flex:1;min-width:125px;max-width:none}}
+@media(max-width:520px){.a3-switch{margin:0 9px 11px;padding:11px}.a3-switch-actions{flex-direction:column}.a3-switch-btn{width:100%}.a3-modal-actions{flex-direction:column;align-items:stretch}.a3-modal-actions a{display:flex;justify-content:center}}
