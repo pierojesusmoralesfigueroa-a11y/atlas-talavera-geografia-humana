@@ -1,0 +1,818 @@
+{
+  "version": "7.0",
+  "generado_utc": "2026-11-25T04:46:00.407112+00:00",
+  "origen": "GeoParquet local: reporte_conversion.csv",
+  "capas": {
+    "limite": {
+      "path": "data/capas/limite.geojson",
+      "count": 1,
+      "original": 1,
+      "numeric": [],
+      "categorical": [],
+      "value": null,
+      "category": null,
+      "attributes": [
+        "UBIGEO",
+        "DISTRITO",
+        "Area",
+        "AREA_GEOM_KM2"
+      ],
+      "size_kb": 12,
+      "id": "limite",
+      "nombre": "Límite distrital de Talavera",
+      "estilo": "boundary",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/dist_talavera/Dist_talavera.parquet"
+    },
+    "capital": {
+      "path": "data/capas/capital.geojson",
+      "count": 1,
+      "original": 1,
+      "numeric": [],
+      "categorical": [],
+      "value": null,
+      "category": null,
+      "attributes": [
+        "nom_poblad",
+        "fuente",
+        "dist",
+        "categoría"
+      ],
+      "size_kb": 0,
+      "id": "capital",
+      "nombre": "Capital distrital",
+      "estilo": "capital",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/capital_talavera/Capital_talavera.parquet"
+    },
+    "centros": {
+      "path": "data/capas/centros.geojson",
+      "count": 66,
+      "original": 66,
+      "numeric": [
+        "POBVULNERA",
+        "POBTOTAL"
+      ],
+      "categorical": [],
+      "value": "POBVULNERA",
+      "category": null,
+      "attributes": [
+        "POBVULNERA",
+        "IDCCPP",
+        "NOMB_CCPP",
+        "COD_CCPP",
+        "NOMB_DISTR",
+        "NOMB_PROVI",
+        "NOMB_DEPAR",
+        "UBIGEO",
+        "AREA_CP",
+        "POBTOTAL",
+        "TIPO"
+      ],
+      "size_kb": 22,
+      "id": "centros",
+      "nombre": "Centros poblados",
+      "estilo": "points",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/centros_poblados_talavera/centros_poblados_talavera.parquet"
+    },
+    "centros_pob": {
+      "path": "data/capas/centros_pob.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA"
+      ],
+      "value": "POBLACION",
+      "category": "REGION_NAT",
+      "attributes": [
+        "POBLACION",
+        "REGION_NAT",
+        "DISTRITO",
+        "LONGITUD",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "COD_GRUPO"
+      ],
+      "size_kb": 21,
+      "id": "centros_pob",
+      "nombre": "Centros poblados (población)",
+      "estilo": "size_points",
+      "origen": "02_MAPAS/M02_Distribucion_y_concentracion_de_poblacion/01_CAPAS_PROCESADAS/centros_poblados_talavera/centros_poblados_talavera_mapa_2.parquet"
+    },
+    "manzanas": {
+      "path": "data/capas/manzanas.geojson",
+      "count": 203,
+      "original": 203,
+      "numeric": [
+        "T_TOTAL",
+        "AREA_HA",
+        "DENS_HA",
+        "AREA_GEOM_KM2"
+      ],
+      "categorical": [
+        "ZONA"
+      ],
+      "value": "DENS_HA",
+      "category": "ZONA",
+      "attributes": [
+        "T_TOTAL",
+        "ZONA",
+        "UBIGEO",
+        "AREA",
+        "CODCCPP",
+        "descargar",
+        "NOMBDEP",
+        "NOMBPROV",
+        "IDPROV",
+        "AREA_HA",
+        "DENS_HA",
+        "AREA_GEOM_KM2"
+      ],
+      "size_kb": 134,
+      "id": "manzanas",
+      "nombre": "Manzanas urbanas y población",
+      "estilo": "choropleth",
+      "origen": "02_MAPAS/M02_Distribucion_y_concentracion_de_poblacion/01_CAPAS_PROCESADAS/Manzanas_talavera/manzanas_talavera.parquet"
+    },
+    "hidrografia": {
+      "path": "data/capas/hidrografia.geojson",
+      "count": 119,
+      "original": 119,
+      "numeric": [
+        "escala",
+        "LONG_GEOM_KM"
+      ],
+      "categorical": [
+        "tipo",
+        "tipo_g"
+      ],
+      "value": "escala",
+      "category": "tipo",
+      "attributes": [
+        "escala",
+        "tipo",
+        "nombre",
+        "codigo",
+        "nivel5",
+        "nivel6",
+        "nivel7",
+        "id",
+        "code_rio",
+        "tipo_g",
+        "nomb_min",
+        "fuente",
+        "LONG_GEOM_KM"
+      ],
+      "size_kb": 68,
+      "id": "hidrografia",
+      "nombre": "Ríos y quebradas",
+      "estilo": "river",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/red_hidrografica_talavera/red_hidrografica_talavera.parquet"
+    },
+    "vias_nacionales": {
+      "path": "data/capas/vias_nacionales.geojson",
+      "count": 1,
+      "original": 1,
+      "numeric": [],
+      "categorical": [],
+      "value": null,
+      "category": null,
+      "attributes": [
+        "Id",
+        "cObseracio",
+        "cObraMejor",
+        "cObraMej_1",
+        "cObraMej_2",
+        "LONG_GEOM_KM"
+      ],
+      "size_kb": 3,
+      "id": "vias_nacionales",
+      "nombre": "Red vial nacional",
+      "estilo": "road_nacional",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/Vias_talavera/Red_nacional_talavera.parquet"
+    },
+    "vias_departamentales": {
+      "path": "data/capas/vias_departamentales.geojson",
+      "count": 9,
+      "original": 46,
+      "numeric": [
+        "LONGITUD",
+        "LONG_GEOM_KM"
+      ],
+      "categorical": [
+        "CODRUTA"
+      ],
+      "value": "LONGITUD",
+      "category": "CODRUTA",
+      "attributes": [
+        "LONGITUD",
+        "CODRUTA",
+        "IDDPTO",
+        "LONG_GEOM_KM"
+      ],
+      "size_kb": 9,
+      "id": "vias_departamentales",
+      "nombre": "Red vial departamental",
+      "estilo": "road_departamental",
+      "origen": "00_COMPARTIDOS/03_RED_VIAL/Red_vial_departamental/red_vial_departamental_dic20.parquet"
+    },
+    "vias_vecinales": {
+      "path": "data/capas/vias_vecinales.geojson",
+      "count": 17,
+      "original": 17,
+      "numeric": [
+        "LONGITUD",
+        "LONG_GEOM_KM"
+      ],
+      "categorical": [
+        "CODRUTA"
+      ],
+      "value": "LONGITUD",
+      "category": "CODRUTA",
+      "attributes": [
+        "LONGITUD",
+        "CODRUTA",
+        "IDDPTO",
+        "LONG_GEOM_KM"
+      ],
+      "size_kb": 35,
+      "id": "vias_vecinales",
+      "nombre": "Red vial vecinal",
+      "estilo": "road_vecinal",
+      "origen": "02_MAPAS/M01_Localizacion_y_centros_poblados/01_CAPAS_PROCESADAS/Vias_talavera/red_vecinal_talavera.parquet"
+    },
+    "sexo_distritos": {
+      "path": "data/capas/sexo_distritos.geojson",
+      "count": 20,
+      "original": 20,
+      "numeric": [
+        "HOMBRES",
+        "MUJERES",
+        "POB_TOTAL",
+        "AREA_KM2",
+        "DENS_HAB",
+        "AREA_GEOM_KM2"
+      ],
+      "categorical": [],
+      "value": "DENS_HAB",
+      "category": null,
+      "attributes": [
+        "DENS_HAB",
+        "UBIGEO",
+        "DISTRITO",
+        "DISTRITO_1",
+        "HOMBRES",
+        "MUJERES",
+        "POB_TOTAL",
+        "AREA_KM2",
+        "AREA_GEOM_KM2"
+      ],
+      "size_kb": 238,
+      "id": "sexo_distritos",
+      "nombre": "Población por sexo (20 distritos)",
+      "estilo": "choropleth",
+      "origen": "02_MAPAS/M03_Sexo_y_grupos_de_edad/01_CAPAS_PROCESADAS/poblacion_sexo_andahuaylas/M03_Poblacion_Sexo_2017.parquet"
+    },
+    "centros_salud_dist": {
+      "path": "data/capas/centros_salud_dist.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION",
+        "NEAR_FID",
+        "NEAR_DIST",
+        "DIST_KM"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA",
+        "NOMBRE",
+        "NOMBRE_1",
+        "CLASIFIC_1"
+      ],
+      "value": "NEAR_DIST",
+      "category": "REGION_NAT",
+      "attributes": [
+        "NEAR_DIST",
+        "REGION_NAT",
+        "DISTRITO",
+        "LONGITUD",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "POBLACION",
+        "COD_GRUPO",
+        "NEAR_FID",
+        "DIST_KM",
+        "NOMBRE",
+        "CLASIFICAC",
+        "NOMBRE_1",
+        "CLASIFIC_1"
+      ],
+      "size_kb": 35,
+      "id": "centros_salud_dist",
+      "nombre": "Centros poblados · proximidad sanitaria",
+      "estilo": "size_points",
+      "origen": "02_MAPAS/M04_Salud_y_proximidad/02_CAPAS_PROCESADAS/Centros_poblados_zona_18/centros_poblados_zona_18_talavera.parquet"
+    },
+    "salud": {
+      "path": "data/capas/salud.geojson",
+      "count": 72,
+      "original": 11392,
+      "numeric": [
+        "COD_IPRESS",
+        "COD_RED",
+        "COD_MICROR",
+        "COD_UE"
+      ],
+      "categorical": [
+        "INSTITUCIO",
+        "CLASIFICAC",
+        "TIPO_ESTAB",
+        "DISTRITO",
+        "CATEGORIA"
+      ],
+      "value": "COD_IPRESS",
+      "category": "CATEGORIA",
+      "attributes": [
+        "COD_IPRESS",
+        "CATEGORIA",
+        "INSTITUCIO",
+        "NOMBRE",
+        "CLASIFICAC",
+        "TIPO_ESTAB",
+        "DISTRITO",
+        "UBIGEO",
+        "COD_RED",
+        "COD_MICROR",
+        "COD_UE"
+      ],
+      "size_kb": 29,
+      "id": "salud",
+      "nombre": "Establecimientos de salud (área de influencia)",
+      "estilo": "health",
+      "origen": "02_MAPAS/M04_Salud_y_proximidad/02_CAPAS_PROCESADAS/establecimientos_salud_UTM18S/establecimiento_salud.parquet"
+    },
+    "locales_educativos": {
+      "path": "data/capas/locales_educativos.geojson",
+      "count": 60,
+      "original": 60,
+      "numeric": [
+        "NUM_NIVELE",
+        "LONGITUD"
+      ],
+      "categorical": [
+        "NIVEL_MAPA",
+        "NIVELES_LO"
+      ],
+      "value": "NUM_NIVELE",
+      "category": "NIVEL_MAPA",
+      "attributes": [
+        "NUM_NIVELE",
+        "NIVEL_MAPA",
+        "COD_LOCAL",
+        "NOMBRE_REF",
+        "NOMBRES_II",
+        "NIVELES_LO",
+        "LONGITUD",
+        "UBIGEO"
+      ],
+      "size_kb": 17,
+      "id": "locales_educativos",
+      "nombre": "Locales educativos de Talavera",
+      "estilo": "education",
+      "origen": "02_MAPAS/M05_Educacion_y_proximidad/01_CAPAS_PROCESADAS/Locales_educativos_talavera/Locales_educativos.parquet"
+    },
+    "dist_primaria": {
+      "path": "data/capas/dist_primaria.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION",
+        "NEAR_FID",
+        "NEAR_DIST"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA"
+      ],
+      "value": "NEAR_DIST",
+      "category": "REGION_NAT",
+      "attributes": [
+        "NEAR_DIST",
+        "REGION_NAT",
+        "DISTRITO",
+        "LONGITUD",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "POBLACION",
+        "COD_GRUPO",
+        "NEAR_FID"
+      ],
+      "size_kb": 23,
+      "id": "dist_primaria",
+      "nombre": "Centros poblados · distancia a primaria",
+      "estilo": "size_points",
+      "origen": "02_MAPAS/M05_Educacion_y_proximidad/01_CAPAS_PROCESADAS/Centros_poblados_cerca_primaria/centros_primaria.parquet"
+    },
+    "dist_secundaria": {
+      "path": "data/capas/dist_secundaria.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION",
+        "NEAR_FID",
+        "NEAR_DIST"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA"
+      ],
+      "value": "NEAR_DIST",
+      "category": "REGION_NAT",
+      "attributes": [
+        "NEAR_DIST",
+        "REGION_NAT",
+        "DISTRITO",
+        "LONGITUD",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "POBLACION",
+        "COD_GRUPO",
+        "NEAR_FID"
+      ],
+      "size_kb": 23,
+      "id": "dist_secundaria",
+      "nombre": "Centros poblados · distancia a secundaria",
+      "estilo": "size_points",
+      "origen": "02_MAPAS/M05_Educacion_y_proximidad/01_CAPAS_PROCESADAS/Centros_poblados_cerca_secundaria/centros_poblados_secundaria.parquet"
+    },
+    "cobertura_vegetal": {
+      "path": "data/capas/cobertura_vegetal.geojson",
+      "count": 15,
+      "original": 15,
+      "numeric": [
+        "Shape_Leng",
+        "AREA_HA",
+        "AREA_GEOM_KM2"
+      ],
+      "categorical": [
+        "CobVeg2013"
+      ],
+      "value": "Shape_Leng",
+      "category": "CobVeg2013",
+      "attributes": [
+        "Shape_Leng",
+        "CobVeg2013",
+        "AREA_HA",
+        "AREA_GEOM_KM2"
+      ],
+      "size_kb": 69,
+      "id": "cobertura_vegetal",
+      "nombre": "Cobertura vegetal",
+      "estilo": "categories",
+      "origen": "02_MAPAS/M06_Cobertura_vegetal_y_superficie_agricola/01_CAPAS_PROCESADAS/Cobertura_vegetal/M06_Cobertura_Talavera.parquet"
+    },
+    "sectores_agricolas": {
+      "path": "data/capas/sectores_agricolas.geojson",
+      "count": 13,
+      "original": 13,
+      "numeric": [
+        "AREA_SE_HA",
+        "LONGITUD"
+      ],
+      "categorical": [
+        "SECTOR_ID",
+        "SECTOR"
+      ],
+      "value": "AREA_SE_HA",
+      "category": "SECTOR",
+      "attributes": [
+        "AREA_SE_HA",
+        "SECTOR_ID",
+        "UBIGEO",
+        "SECTOR",
+        "LONGITUD"
+      ],
+      "size_kb": 3,
+      "id": "sectores_agricolas",
+      "nombre": "Sectores agrícolas",
+      "estilo": "categories",
+      "origen": "02_MAPAS/M06_Cobertura_vegetal_y_superficie_agricola/01_CAPAS_PROCESADAS/Superficie_agricola_sectorial/sup_agricola_sectorial.parquet"
+    },
+    "dist_vial": {
+      "path": "data/capas/dist_vial.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION",
+        "NEAR_FID",
+        "NEAR_DIST"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA"
+      ],
+      "value": "NEAR_DIST",
+      "category": "REGION_NAT",
+      "attributes": [
+        "NEAR_DIST",
+        "REGION_NAT",
+        "DISTRITO",
+        "LONGITUD",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "POBLACION",
+        "COD_GRUPO",
+        "NEAR_FID"
+      ],
+      "size_kb": 23,
+      "id": "dist_vial",
+      "nombre": "Centros poblados · proximidad a vías",
+      "estilo": "size_points",
+      "origen": "02_MAPAS/M07_Jerarquia_y_proximidad_vial/01_CAPAS_PROCESADAS/Centros_poblados_dist/centros_poblados_dist.parquet"
+    },
+    "centros_susceptibilidad": {
+      "path": "data/capas/centros_susceptibilidad.geojson",
+      "count": 67,
+      "original": 67,
+      "numeric": [
+        "LONGITUD",
+        "POBLACION"
+      ],
+      "categorical": [
+        "REGION_NAT",
+        "CATEGORIA"
+      ],
+      "value": "LONGITUD",
+      "category": "REGION_NAT",
+      "attributes": [
+        "LONGITUD",
+        "REGION_NAT",
+        "DISTRITO",
+        "CATEGORIA",
+        "CODIGO",
+        "UBIGEO",
+        "DESCRIPCIO",
+        "POBLACION",
+        "COD_GRUPO"
+      ],
+      "size_kb": 21,
+      "id": "centros_susceptibilidad",
+      "nombre": "Centros poblados de referencia",
+      "estilo": "points",
+      "origen": "02_MAPAS/M07_Jerarquia_y_proximidad_vial/01_CAPAS_PROCESADAS/centros_poblados_talavera/centros_poblados_talavera_mapa_2.parquet"
+    },
+    "provincia_estadisticas": {
+      "id": "provincia_estadisticas",
+      "path": "data/distritos_20.geojson",
+      "count": 20,
+      "nombre": "Andahuaylas · indicadores INEI/MTC/MINEDU",
+      "estilo": "choropleth",
+      "numeric": [
+        "Hombres",
+        "Mujeres",
+        "Poblacion_2017",
+        "Area_km2",
+        "Dens_pob_hab_km2",
+        "Longitud_vial_km",
+        "Dens_vial_km_km2",
+        "Rank_pob",
+        "Rank_dens_pob",
+        "Rank_long_vial",
+        "Rank_dens_vial",
+        "QUECHUA",
+        "CASTELLANO",
+        "OTRAS_RESP",
+        "TOTAL_3MAS",
+        "NO_APLICA",
+        "PCT_QUECHUA",
+        "PCT_CASTELLANO",
+        "PCT_OTRAS",
+        "POB_TOTAL",
+        "POB_SIM",
+        "IC_INF95",
+        "IC_SUP95",
+        "MID_IC95",
+        "GRUPO_APU",
+        "RANK_APU",
+        "GRUPO_NAC",
+        "RANK_NAC",
+        "PROY_2020",
+        "ANIO_POBR",
+        "ANIO_POB"
+      ],
+      "value": "Dens_pob_hab_km2",
+      "category": null,
+      "size_kb": 248,
+      "origen": "02_MAPAS/M09_Comparacion_provincial_de_densidad_poblacional_y_vial/01_CAPAS_PROCESADAS/Dens_hab_andahuaylas/Dens_hab_andahuaylas.parquet"
+    },
+    "turismo": {
+      "id": "turismo",
+      "nombre": "Recursos turísticos MINCETUR",
+      "path": "data/m11_recursos.geojson",
+      "count": 5,
+      "estilo": "tourism",
+      "category": "GRUPO_MAPA",
+      "numeric": [],
+      "origen": "M11_recursos_turisticos.csv"
+    }
+  },
+  "temas": {
+    "M01": [
+      "limite",
+      "capital",
+      "centros",
+      "hidrografia",
+      "vias_nacionales",
+      "vias_departamentales",
+      "vias_vecinales"
+    ],
+    "M02": [
+      "limite",
+      "capital",
+      "centros_pob",
+      "manzanas"
+    ],
+    "M03": [
+      "provincia_estadisticas",
+      "sexo_distritos"
+    ],
+    "M04": [
+      "limite",
+      "hidrografia",
+      "centros_salud_dist",
+      "salud"
+    ],
+    "M05": [
+      "limite",
+      "locales_educativos",
+      "dist_primaria",
+      "dist_secundaria"
+    ],
+    "M06": [
+      "limite",
+      "capital",
+      "hidrografia",
+      "cobertura_vegetal",
+      "sectores_agricolas"
+    ],
+    "M07": [
+      "limite",
+      "capital",
+      "hidrografia",
+      "vias_nacionales",
+      "vias_departamentales",
+      "vias_vecinales",
+      "dist_vial"
+    ],
+    "M08": [
+      "limite",
+      "hidrografia",
+      "centros_susceptibilidad"
+    ],
+    "M09": [
+      "provincia_estadisticas"
+    ],
+    "M10": [
+      "provincia_estadisticas"
+    ],
+    "M11": [
+      "limite",
+      "hidrografia",
+      "vias_nacionales",
+      "vias_departamentales",
+      "centros",
+      "turismo"
+    ],
+    "M12": [
+      "provincia_estadisticas"
+    ]
+  },
+  "rasters": [
+    {
+      "id": "masa",
+      "nombre": "Susceptibilidad a movimientos en masa",
+      "path": "data/rasters/masa.png",
+      "bounds": [
+        [
+          -13.738404749,
+          -73.503759205
+        ],
+        [
+          -13.488198754,
+          -73.405852511
+        ]
+      ],
+      "legend": [
+        {
+          "value": 2,
+          "name": "Baja",
+          "color": "#8BFA6C",
+          "count_original": 215,
+          "area_ha_original": 860.0
+        },
+        {
+          "value": 3,
+          "name": "Media",
+          "color": "#FFF586",
+          "count_original": 1869,
+          "area_ha_original": 7476.0
+        },
+        {
+          "value": 4,
+          "name": "Alta",
+          "color": "#FFA41B",
+          "count_original": 1161,
+          "area_ha_original": 4644.0
+        },
+        {
+          "value": 5,
+          "name": "Muy alta",
+          "color": "#F57F88",
+          "count_original": 710,
+          "area_ha_original": 2840.0
+        }
+      ],
+      "source": "INGEMMET · capas procesadas en el M08 del Atlas Talavera",
+      "source_file": "Extract_su_m1.tif",
+      "resolution_m": 200,
+      "nodata_value": 0,
+      "method_note": "Clases confirmadas con la lámina A3 M08 y la tabla VAT del GeoTIFF.",
+      "note": "Clases cotejadas con la lámina M08. Código 0 transparente (no figura en las tablas VAT)."
+    },
+    {
+      "id": "inundacion",
+      "nombre": "Susceptibilidad a inundación fluvial",
+      "path": "data/rasters/inundacion.png",
+      "bounds": [
+        [
+          -13.73687054,
+          -73.502527598
+        ],
+        [
+          -13.488498522,
+          -73.406895307
+        ]
+      ],
+      "legend": [
+        {
+          "value": 1,
+          "name": "Muy baja o nula",
+          "color": "#FBF8AF",
+          "count_original": 55909,
+          "area_ha_original": 13977.25
+        },
+        {
+          "value": 2,
+          "name": "Baja",
+          "color": "#8BFA6C",
+          "count_original": 6751,
+          "area_ha_original": 1687.75
+        },
+        {
+          "value": 3,
+          "name": "Media",
+          "color": "#FFA41B",
+          "count_original": 424,
+          "area_ha_original": 106.0
+        },
+        {
+          "value": 4,
+          "name": "Alta",
+          "color": "#F57F88",
+          "count_original": 115,
+          "area_ha_original": 28.75
+        }
+      ],
+      "source": "INGEMMET · capas procesadas en el M08 del Atlas Talavera",
+      "source_file": "Extract_SERV1.tif",
+      "resolution_m": 50,
+      "nodata_value": 0,
+      "method_note": "Clases confirmadas con la lámina A3 M08 y la tabla VAT del GeoTIFF.",
+      "note": "Clases cotejadas con la lámina M08. Código 0 transparente (no figura en las tablas VAT)."
+    }
+  ],
+  "errores": [],
+  "advertencias": [
+    "M08: classes revisadas con la lámina original M08 y tablas VAT; 0 corresponde a exterior/sin datos.",
+    "La distancia Near es euclidiana, no accesibilidad por carretera.",
+    "Las cifras de pobreza POB_SIM son reprocesadas y mantienen incertidumbre estadística."
+  ]
+}

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#183349" />
+  <meta name="description" content="Atlas geográfico-social interactivo del distrito de Talavera, Andahuaylas, Apurímac. Proyecto académico de Piero Morales." />
+  <title>Atlas Geográfico-Social de Talavera · UNMSM</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="./styles.css?v=9.0" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brandmark" aria-hidden="true">▦</span>
+    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V9</small></div>
+  </div>
+  <nav class="nav-actions" aria-label="Acciones principales">
+    <span class="unmsm">Universidad Nacional Mayor<br>de San Marcos</span>
+    <button id="openAbout" class="nav-button" type="button">Sobre el proyecto</button>
+    <button id="openHome" class="nav-button" type="button">Portada</button>
+    <button id="mobileMenu" class="nav-button menu-button" type="button" aria-expanded="false" aria-controls="sidebar">☰ Capas</button>
+  </nav>
+</header>
+<main class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Herramientas de exploración">
+    <div class="sidebar-head">
+      <div class="eyebrow">Exploración territorial</div>
+      <div class="sidebar-title">12 mapas temáticos <span class="pill">Talavera</span></div>
+      <label class="field-label" for="search">Buscar distrito o recurso turístico</label>
+      <input id="search" type="search" placeholder="Ej.: Talavera, Achanchi…" />
+      <p class="micro">Explora capas oficiales, compara indicadores y consulta la información de cada localidad.</p>
+    </div>
+    <div class="theme-list" id="themeList" role="group" aria-label="Mapas del atlas"></div>
+    <section class="filters">
+      <div class="eyebrow">Configuración de mapas</div>
+      <div id="viewWrap" hidden><label for="viewMode" class="field-label">¿Qué deseas observar?</label><select id="viewMode" aria-label="Vista cartográfica temática"></select><p class="micro">Cambia entre población, equipamientos y categorías de proximidad.</p></div>
+      <div id="proximityFilterWrap" class="proximity-filter-wrap" hidden>
+        <label for="proximityFilter" class="field-label">Filtrar centros por cercanía</label>
+        <select id="proximityFilter" aria-label="Filtrar categorías de distancia"><option value="all">Todas las distancias</option></select>
+        <p class="micro">Cada color es una clase de distancia medida en línea recta; elige una para destacar sus localidades.</p>
+      </div>
+      <label id="populationLabelsWrap" class="checkrow" hidden><input id="populationLabels" type="checkbox" checked /> Etiquetar localidades más pobladas</label>
+      <div id="variableWrap" hidden>
+        <label for="variable" class="field-label">Variable temática</label>
+        <select id="variable"></select>
+      </div>
+      <div id="districtWrap" hidden>
+        <label for="districtSelect" class="field-label">Distrito para consultar indicadores</label>
+        <select id="districtSelect"></select>
+      </div>
+      <div id="layerChoices" class="layer-choices"></div>
+      <div id="categoryWrap" hidden>
+        <label for="category" class="field-label">Tipo de recurso turístico</label>
+        <select id="category"></select>
+      </div>
+      <label class="checkrow"><input id="toggleDistricts" type="checkbox" checked /> Mostrar límites distritales</label>
+      <label class="checkrow"><input id="toggleTalavera" type="checkbox" checked /> Resaltar Talavera</label>
+      <label for="basemap" class="field-label">Mapa base</label>
+      <select id="basemap"><option value="osm">OpenStreetMap (sin clave)</option><option value="topo">Relieve topográfico</option><option value="none">Sin mapa base</option></select>
+      <div class="filter-actions"><button id="fit" class="button">Centrar mapa</button><button id="download" class="button subtle">Exportar GeoJSON</button></div>
+    </section>
+    <div id="qualityStatus" class="sidebar-status" aria-live="polite">Comprobando capas disponibles…</div>
+    <div class="sidebar-foot"><strong>Interpretación:</strong> las distancias son euclidianas y no describen tiempos de viaje. Haz clic en cualquier símbolo para conocer sus datos.<br><br>Fuentes: INEI · MINCETUR · MTC · MINAM · otros organismos oficiales.<br>Indicadores: consultar siempre año, escala y metodología.</div>
+  </aside>
+  <section class="workspace" aria-label="Mapa interactivo">
+    <div class="workspace-header">
+      <div><div class="eyebrow">ATLAS GEOGRÁFICO-SOCIAL · <span id="themeCode">M11</span></div>
+        <h1 id="themeTitle">Recursos turísticos y patrimonio territorial</h1>
+        <p id="themeSubtitle">Distrito de Talavera · Andahuaylas · Apurímac</p>
+      </div>
+      <div class="header-tools"><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button">Leyenda</button></div>
+    </div>
+    <div class="metrics" id="metrics"></div><div id="resourceStrip" class="resource-strip" hidden aria-label="Explorador rápido de recursos turísticos"></div>
+    <div class="map-layout">
+      <div class="map-holder">
+        <div id="map" aria-label="Visor cartográfico interactivo"></div>
+        <div id="legend" class="legend" aria-live="polite"></div><div id="mapGuide" class="map-guide" aria-live="polite"></div>
+        <div id="mapMessage" class="map-message" hidden></div><button id="urbanInsetCard" type="button" class="urban-inset" hidden aria-label="Ampliar plaza y templo en el mapa principal"><span class="urban-inset-title">DETALLE URBANO · PLAZA Y TEMPLO <span>↗</span></span><span id="urbanInsetMap" class="urban-inset-map" aria-hidden="true"></span><small>Dos recursos cercanos · Clic para ampliar</small></button><div class="map-instruction">Haz clic en puntos y áreas para consultar su información</div>
+      </div>
+      <section class="insight" aria-labelledby="insightTitle">
+        <div class="eyebrow">Lectura territorial</div>
+        <h2 id="insightTitle">Sobre este mapa</h2>
+        <p id="insightDescription"></p>
+        <div class="divider"></div>
+        <div class="eyebrow">Entidad seleccionada</div>
+        <div id="details" class="details">Haz clic en una entidad o recurso turístico para consultar sus atributos.</div>
+        <div id="classSummary" class="class-summary" hidden></div><div id="populationRank" class="population-rank" hidden></div>
+        <div id="tourismExplorer" class="tourism-explorer" hidden></div>
+        <div id="statPanel" class="stat-panel"></div>
+        <div class="divider"></div>
+        <div class="eyebrow">Referencia cartográfica</div>
+        <img class="thumb" id="mapThumb" src="./assets/laminas/M09.jpg" alt="Miniatura del mapa original del atlas" />
+        <button class="button subtle full" id="showOriginal2">Consultar lámina</button>
+        <p class="micro" id="sourceInfo"></p>
+      </section>
+    </div>
+    <div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V9 · Atlas cartográfico interactivo</span></div>
+  </section>
+</main>
+<div class="landing" id="landing" role="dialog" aria-label="Presentación del atlas" aria-modal="true">
+  <div class="landing-card">
+    <div class="landing-main">
+      <div class="landing-eyebrow">UNMSM · INGENIERÍA GEOGRÁFICA · ATLAS INTERACTIVO 2026</div>
+      <h1>Un territorio,<br><em>doce miradas.</em></h1>
+      <p>Explora la población, la cultura, los servicios, la conectividad, la economía y el paisaje de Talavera mediante cartografía y datos oficiales.</p>
+      <div class="landing-actions"><button id="enterAtlas" class="button primary">Explorar el atlas</button><button id="landingAbout" class="button light">Conocer el proyecto</button></div>
+    </div>
+    <div class="landing-stats"><span><strong>12</strong> mapas temáticos</span><span><strong>20</strong> distritos para comparar</span><span><strong>2026</strong> elaboración</span></div>
+  </div>
+</div>
+<dialog id="modal">
+  <div class="modal-head"><h2 id="modalTitle">Lámina original</h2><button id="closeModal" class="button subtle">Cerrar ✕</button></div>
+  <div id="modalBody"></div>
+</dialog>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="./app.js?v=9.0"></script>
+</body>
+</html>

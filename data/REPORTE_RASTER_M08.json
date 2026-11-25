@@ -1,0 +1,82 @@
+[
+  {
+    "id": "masa",
+    "origen": "raster_mapa08/Extract_su_m1.tif",
+    "epsg": 32718,
+    "res_m": 200.0,
+    "input_width": 52,
+    "input_height": 138,
+    "original_counts": {
+      "0": 3221,
+      "2": 215,
+      "3": 1869,
+      "4": 1161,
+      "5": 710
+    },
+    "classes": {
+      "2": "Baja",
+      "3": "Media",
+      "4": "Alta",
+      "5": "Muy alta"
+    },
+    "web_pixels_by_class": {
+      "2": 219,
+      "3": 1906,
+      "4": 1173,
+      "5": 731
+    },
+    "web_width": 54,
+    "web_height": 138,
+    "bounds": [
+      [
+        -13.738404749,
+        -73.503759205
+      ],
+      [
+        -13.488198754,
+        -73.405852511
+      ]
+    ],
+    "png_bytes": 2134
+  },
+  {
+    "id": "inundacion",
+    "origen": "raster_mapa08/Extract_SERV1.tif",
+    "epsg": 32718,
+    "res_m": 50.0,
+    "input_width": 203,
+    "input_height": 548,
+    "original_counts": {
+      "0": 48045,
+      "1": 55909,
+      "2": 6751,
+      "3": 424,
+      "4": 115
+    },
+    "classes": {
+      "1": "Muy baja o nula",
+      "2": "Baja",
+      "3": "Media",
+      "4": "Alta"
+    },
+    "web_pixels_by_class": {
+      "1": 56827,
+      "2": 6874,
+      "3": 425,
+      "4": 118
+    },
+    "web_width": 211,
+    "web_height": 548,
+    "bounds": [
+      [
+        -13.73687054,
+        -73.502527598
+      ],
+      [
+        -13.488498522,
+        -73.406895307
+      ]
+    ],
+    "png_bytes": 7402
+  }
+]
