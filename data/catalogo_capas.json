@@ -1,5 +1,5 @@
 {
-  "version": "7.0",
+  "version": "14.0",
   "generado_utc": "2026-11-25T04:46:00.407112+00:00",
   "origen": "GeoParquet local: reporte_conversion.csv",
   "capas": {
@@ -642,7 +642,8 @@
       "hidrografia",
       "vias_nacionales",
       "vias_departamentales",
-      "vias_vecinales"
+      "vias_vecinales",
+      "centros_pob"
     ],
     "M02": [
       "limite",
@@ -726,28 +727,28 @@
           "name": "Baja",
           "color": "#8BFA6C",
           "count_original": 215,
-          "area_ha_original": 860.0
+          "area_ha_original": 860
         },
         {
           "value": 3,
           "name": "Media",
           "color": "#FFF586",
           "count_original": 1869,
-          "area_ha_original": 7476.0
+          "area_ha_original": 7476
         },
         {
           "value": 4,
           "name": "Alta",
           "color": "#FFA41B",
           "count_original": 1161,
-          "area_ha_original": 4644.0
+          "area_ha_original": 4644
         },
         {
           "value": 5,
           "name": "Muy alta",
           "color": "#F57F88",
           "count_original": 710,
-          "area_ha_original": 2840.0
+          "area_ha_original": 2840
         }
       ],
       "source": "INGEMMET · capas procesadas en el M08 del Atlas Talavera",
@@ -791,7 +792,7 @@
           "name": "Media",
           "color": "#FFA41B",
           "count_original": 424,
-          "area_ha_original": 106.0
+          "area_ha_original": 106
         },
         {
           "value": 4,

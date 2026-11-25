@@ -332,3 +332,8 @@ body.atlas-presentation-mode .map-holder,body.atlas-presentation-mode #map{min-h
 @media(max-width:1240px){.metrics.metrics-five{grid-template-columns:repeat(3,minmax(0,1fr))}.a3-switch{flex-direction:column;align-items:stretch}.a3-switch-actions{justify-content:flex-start}}
 @media(max-width:870px){.metrics.metrics-five{grid-template-columns:repeat(2,minmax(0,1fr))}.a3-switch{margin:0 15px 12px}.a3-switch-btn{flex:1;min-width:125px;max-width:none}}
 @media(max-width:520px){.a3-switch{margin:0 9px 11px;padding:11px}.a3-switch-actions{flex-direction:column}.a3-switch-btn{width:100%}.a3-modal-actions{flex-direction:column;align-items:stretch}.a3-modal-actions a{display:flex;justify-content:center}}
+
+/* V14 · Láminas A3 y ficha M01 accesibles en escritorio y móvil */
+#mapThumb.thumb{width:100%;height:auto;max-height:265px;object-fit:contain;background:#f5f7f4;border:1px solid #d6e2df;border-radius:10px}
+#modalBody img{max-width:100%;height:auto;max-height:76vh;object-fit:contain;display:block;margin:0 auto;border:1px solid #e0e5e4;border-radius:8px}
+.a3-source-note{font-size:12px;line-height:1.6}

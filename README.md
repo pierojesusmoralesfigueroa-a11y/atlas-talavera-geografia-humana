@@ -72,3 +72,13 @@ Para prueba local: en la carpeta extraída ejecutar `py -m http.server 8002` y a
 - `data/` y `assets/`: información SIG local, gráficos, láminas e íconos.
 
 **Fuentes institucionales del proyecto:** INEI, MTC/Provías, MINEDU, MINSA/SUSALUD, MINAM, MIDAGRI, INGEMMET, MINCETUR y cartografía administrativa. Revisar los metadatos y licencias originales antes de redistribuir información de terceros.
+
+
+## Actualización V14 · Publicación de láminas M01, M10, M11 y M12
+
+- **M01:** 67 centros poblados, 158,02 km², 98,51 % de localidades rurales según el PDF M01 aportado. Usa la capa de 67 centros con población del atlas, conservando la capa previa de 66 como alternativa desactivada. Lámina SVG vectorial web, no copia del PDF original.
+- **M10:** imagen y PDF A3 aportados, accesibles desde `Talavera_M10_A3.jpg` y `Talavera_M10_original_A3.pdf` en la raíz.
+- **M11:** imagen y PDF A3 aportados, accesibles desde `Talavera_M11_A3.jpg` y `Talavera_M11_original_A3.pdf` en la raíz. Fotografías extraídas de la lámina en `Talavera_Turismo_*.jpg`.
+- **M12:** imagen y PDF A3 aportados, accesibles desde `Talavera_M12_A3.jpg` y `Talavera_M12_original_A3.pdf` en la raíz.
+
+La V14 conecta las rutas reales del repositorio. El PDF original del M01 sigue siendo un archivo proporcionado en la conversación, no se afirma haberlo alojado en GitHub. Para evitar caché, se usan consultas `?v=14`.

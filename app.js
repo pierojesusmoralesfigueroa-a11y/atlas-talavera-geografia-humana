@@ -1,5 +1,5 @@
 'use strict';
-/* Atlas Talavera V13 · GitHub Pages. Solo se muestran geometrías verdaderas
+/* Atlas Talavera V14 · GitHub Pages. Solo se muestran geometrías verdaderas
    exportadas desde los GeoParquet originales. Las tablas no crean polígonos. */
 const catalog = [
  ['M01','Localización y centros poblados','Localización','Distribución de asentamientos y capital distrital'],
@@ -29,9 +29,9 @@ const m12Poverty=['#fff2d6','#fbd48e','#f5a248','#dc6b1d','#823509'];
 const copper=['#F5EBDD','#E9CEB4','#D3A26B','#B67C58','#7E493C'];
 const spanish=['#F8EEDB','#EAD39D','#D3A26B','#B47B42','#78491F'];
 const categoriesColors=['#438F88','#D3A26B','#587E59','#805A9F','#6FBAD1','#D28264','#B0C4B1','#AA835B','#5C7891','#B6A2B5','#7A8C6A','#AFCED0','#996E6D'];
-const primaryPref={M01:'centros',M02:'centros_pob',M03:'provincia_estadisticas',M04:'centros_salud_dist',M05:'dist_primaria',M06:'cobertura_vegetal',M07:'dist_vial',M08:'centros_susceptibilidad',M09:'provincia_estadisticas',M10:'provincia_estadisticas',M11:'turismo',M12:'provincia_estadisticas'};
+const primaryPref={M01:'centros_pob',M02:'centros_pob',M03:'provincia_estadisticas',M04:'centros_salud_dist',M05:'dist_primaria',M06:'cobertura_vegetal',M07:'dist_vial',M08:'centros_susceptibilidad',M09:'provincia_estadisticas',M10:'provincia_estadisticas',M11:'turismo',M12:'provincia_estadisticas'};
 const themes={
- M01:{metrics:[['158,00 km²','Área aproximada'],['66','Centros poblados en M01'],['Talavera','Capital distrital'],['M01','Lámina del atlas']],desc:'La localización y la relación entre asentamientos, ríos y vías permite interpretar la organización territorial. M01 representa 66 centros; otros análisis emplean una base de 67 puntos, lo que requiere documentar el universo de cada capa.',source:'INEI · MTC · cartografía administrativa'},
+ M01:{metrics:[['158,02 km²','Superficie distrital'],['67','Centros poblados'],['98,51 %','Localidades rurales'],['Talavera','Capital distrital']],desc:'El distrito de Talavera se presenta en su contexto provincial con 67 centros poblados (según la lámina A3 M01), la capital, hidrografía y vías de distinta jerarquía. La proporción de 98,51 % se refiere a la distribución rural de las localidades indicada en la lámina y no al porcentaje de habitantes rurales. Los 67 puntos proceden de la capa de centros poblados con población del atlas; otra capa previa de M01 contenía 66.',source:'INEI · MTC · lámina M01 aportada (2026)'},
  M02:{metrics:[['18 509','Población, 2017'],['11 646','Población urbana'],['6 863','Población rural'],['117,13','Habitantes/km²']],desc:'Los centros poblados se visualizan con círculos de área aproximadamente proporcional a su población censada; el símbolo más grande indica más habitantes. Puedes ver las localidades principales y alternar la capa de densidad de manzanas.  La densidad de manzanas no describe toda la zona rural.',source:'INEI · Censo 2017'},
  M03:{metrics:[['9 630','Mujeres'],['8 879','Hombres'],['52,03 %','Proporción femenina'],['29,54 %','Población de 0–14 años']],desc:'La composición por sexo y edad permite interpretar las demandas potenciales de servicios. Las cifras de población tienen como referencia el Censo 2017.',source:'INEI · Censo 2017'},
  M04:{metrics:[['14','Establecimientos en Talavera'],['1,40 km','Distancia media'],['4,22 km','Distancia máxima'],['22,88 %','Centros a más de 2 km']],desc:'Cada centro poblado se colorea por la distancia euclidiana al establecimiento de salud más cercano, usando los cuatro rangos de la lámina M04. Las cruces muestran los establecimientos dentro y alrededor de Talavera; no son tiempos de recorrido ni garantizan atención disponible.',source:'MINSA / SUSALUD · análisis Near'},
@@ -83,6 +83,7 @@ function nav(){ $('themeList').innerHTML=catalog.map(r=>{const n=themeRowsFor(r[
 function themeRowsFor(t){return (manifest?.temas?.[t]||[]).filter(id=>manifest.capas?.[id]).length+(t==='M08'?(manifest?.rasters?.length||0):0)}
 function layerCheckboxes(){const list=themeRows();let selectedPrevious=lastLayerTheme===selectedTopic?new Set(currentLayers):new Set();lastLayerTheme=selectedTopic;currentLayers=new Set();
  for(const id of list){if(id===primaryPref[selectedTopic]||id==='limite'||selectedPrevious.has(id)||
+   (selectedTopic==='M01'&&['centros_pob','capital','hidrografia','vias_nacionales','vias_departamentales'].includes(id))||
    (selectedTopic==='M02'&&id==='centros_pob')||
    (selectedTopic==='M04'&&id==='centros_salud_dist')||
    (selectedTopic==='M05'&&id==='dist_primaria')||
@@ -288,8 +289,8 @@ function pointStyle(info,p,prep){const name=info.estilo||'';
  if(distanceClassifications[info.id]){const i=classIndex(info.id,p),chosen=$('proximityFilter')?.value??'all',focus=chosen==='all'||String(i)===chosen;return {radius:(focus?7.8:6.8)*atlasSymbolScale,color:focus?'#fff':'#3D5966',weight:focus?2.3:1.4,fillColor:i<0?'#929C9D':distanceColors[i],fillOpacity:focus?.97:.48,opacity:focus?1:.7};}
  let color=name==='capital'?'#B76A47':name==='health'?'#2C9F97':name==='education'?'#D3A26B':name==='size_points'?'#24779C':'#438F88';
  if(name==='education'){const txt=[p.NIVEL_MAPA,p.NIVELES_LO,p.NIVEL,p.NIVEL_EDU,p.MODALIDAD].filter(Boolean).join(' ').toLowerCase();if(txt.includes('multinivel'))color='#B06D79';else if(txt.includes('inicial'))color='#DBA152';else if(txt.includes('primaria'))color='#277B89';else if(txt.includes('secundaria'))color='#7965A7'}
- const radius=(name==='capital'?9:info.id==='centros_pob'?circleRadius(p.POBLACION):selectedTopic==='M11'&&info.id==='centros'?3.2:name==='health'?5.5:name==='education'?5.4:4.8)*atlasSymbolScale;
- return {radius,color:info.id==='centros_pob'?'#FFFFFF':'#FFFFFF',weight:info.id==='centros_pob'?2.25:1.5,fillColor:info.id==='centros_pob'?'#227D9D':selectedTopic==='M11'&&info.id==='centros'?'#647C80':color,fillOpacity:selectedTopic==='M11'&&info.id==='centros'?.62:.94};}
+ const radius=(name==='capital'?9:info.id==='centros_pob'?(selectedTopic==='M01'?(Number(p.POBLACION)>=300?5.4:3.8):circleRadius(p.POBLACION)):selectedTopic==='M11'&&info.id==='centros'?3.2:name==='health'?5.5:name==='education'?5.4:4.8)*atlasSymbolScale;
+ return {radius,color:info.id==='centros_pob'?'#FFFFFF':'#FFFFFF',weight:info.id==='centros_pob'?2.25:1.5,fillColor:info.id==='centros_pob'?(selectedTopic==='M01'?(Number(p.POBLACION)>=300?'#267AA5':'#CC954C'):'#227D9D'):selectedTopic==='M11'&&info.id==='centros'?'#647C80':color,fillOpacity:selectedTopic==='M11'&&info.id==='centros'?.62:.94};}
 function featureLabel(p){return String(normalizedLabel(p)||'')}
 function makeLayer(geo,info){if(!map||!geo?.features?.length)return null;
  const prep=prepareStyle(info,geo.features);const type=info.estilo;
@@ -349,6 +350,7 @@ async function drawLayers({resetExtent=false}={}){const serial=++activeRender;cl
    catch(e){console.error(e)}
  }
  if(hasShape){if(primaryLegend?.raster){legend(primaryLegend.raster.legend.map(c=>[c.name,c.color]),'Valores originales del ráster','Categorías cotejadas con la lámina A3 M08. Código 0: exterior/sin datos.')}
+ else if(selectedTopic==='M01'){legend([['Capital distrital','#B55436'],['Centros poblados (67)','#267AA5'],['Red vial principal','#BD6744'],['Ríos y quebradas','#73B3C8']],'Localización de Talavera','M01: 67 centros según la lámina A3; puntos derivados de la capa poblacional del atlas.');}
  else if(selectedTopic==='M02'&&currentLayers.has('centros_pob')){const geo=results[ids.indexOf('centros_pob')];populationLegend(geo?.features||[])}
  else if(['M04','M05','M07'].includes(selectedTopic)){
    const found=currentProximityId();
@@ -375,7 +377,7 @@ async function renderTourismCards(){if(selectedTopic!=='M11')return;
  const fc=await getJSON('data/m11_recursos.geojson');if(selectedTopic!=='M11'||!fc?.features)return;
  const facts=fc.features.map(f=>{const p=f.properties||{};return {id:String(p.COD_RECURSO),name:p.NOMBRE,category:p.GRUPO_MAPA,type:p.TIPO,url:p.URL_FICHA,coordinates:f.geometry.coordinates};});
  $('resourceStrip').innerHTML=facts.map((r,i)=>`<button type="button" class="resource-pill" data-tour-id="${esc(r.id)}"><span class="resource-index">${i+1}</span><span class="resource-text"><strong>${esc(r.name)}</strong><small>${esc(r.category)}</small></span><span class="resource-arrow">↗</span></button>`).join('');$('resourceStrip').hidden=false;
- $('tourismExplorer').innerHTML=`<div class="eyebrow">Guía interactiva · MINCETUR</div><h3 class="tour-heading">Descubre los cinco recursos</h3><p class="micro">Selecciona una tarjeta para acercarte al lugar y consultar su ficha. Los puntos son registros del inventario, no rutas verificadas.</p><div class="tour-summary"><div><strong>2</strong><small>Patrimonio urbano</small></div><div><strong>1</strong><small>Arqueológico</small></div><div><strong>1</strong><small>Natural</small></div><div><strong>1</strong><small>Festividad</small></div></div><div class="tour-tools"><button class="button subtle" id="tourAll" type="button">Ver todo Talavera</button><button class="button subtle" id="tourUrban" type="button">Acercar plaza y templo</button></div><div class="tour-cards">${facts.map(p=>`<button class="tour-card" type="button" data-tour-id="${esc(p.id)}"><span class="tour-icon" style="background:${tourismColors[p.category]||'#438F88'}25"><img src="./assets/iconos/${tourismIcon[p.category]||'01_urbano_cultural_128px.png'}" alt="" loading="lazy"/></span><span><b>${esc(p.name)}</b><small>${esc(p.category)} · ${esc(p.type||'')}</small></span><span class="tour-card-arrow">›</span></button>`).join('')}</div><div class="tour-photo-head"><span class="eyebrow">PATRIMONIO DOCUMENTADO · LÁMINA A3</span><p>Fotografías recortadas de la lámina original aportada. Haz clic para ubicar el recurso en el visor.</p></div><div class="tour-photo-grid">${[['8823','plaza_talavera.jpg','Plaza de Armas de Talavera'],['8266','achanchi.jpg','Sitio arqueológico de Achanchi'],['9024','sutoqmachay.jpg','Caverna Sutoqmachay']].map(([id,img,title])=>`<button class="tour-photo-card" type="button" data-photo-resource="${id}" aria-label="Ubicar ${esc(title)}"><img loading="lazy" src="./assets/turismo_fotos/${img}" alt="${esc(title)} · fotografía incluida en la lámina M11"/><span>${esc(title)}</span></button>`).join('')}</div><p class="tour-photo-credit">Crédito de las fotografías: lámina académica M11 aportada; autoría individual no especificada. Verificar permisos antes de redistribuir públicamente.</p>`;
+ $('tourismExplorer').innerHTML=`<div class="eyebrow">Guía interactiva · MINCETUR</div><h3 class="tour-heading">Descubre los cinco recursos</h3><p class="micro">Selecciona una tarjeta para acercarte al lugar y consultar su ficha. Los puntos son registros del inventario, no rutas verificadas.</p><div class="tour-summary"><div><strong>2</strong><small>Patrimonio urbano</small></div><div><strong>1</strong><small>Arqueológico</small></div><div><strong>1</strong><small>Natural</small></div><div><strong>1</strong><small>Festividad</small></div></div><div class="tour-tools"><button class="button subtle" id="tourAll" type="button">Ver todo Talavera</button><button class="button subtle" id="tourUrban" type="button">Acercar plaza y templo</button></div><div class="tour-cards">${facts.map(p=>`<button class="tour-card" type="button" data-tour-id="${esc(p.id)}"><span class="tour-icon" style="background:${tourismColors[p.category]||'#438F88'}25"><img src="./assets/iconos/${tourismIcon[p.category]||'01_urbano_cultural_128px.png'}" alt="" loading="lazy"/></span><span><b>${esc(p.name)}</b><small>${esc(p.category)} · ${esc(p.type||'')}</small></span><span class="tour-card-arrow">›</span></button>`).join('')}</div><div class="tour-photo-head"><span class="eyebrow">PATRIMONIO DOCUMENTADO · LÁMINA A3</span><p>Fotografías recortadas de la lámina original aportada. Haz clic para ubicar el recurso en el visor.</p></div><div class="tour-photo-grid">${[['8823','Talavera_Turismo_plaza_talavera.jpg','Plaza de Armas de Talavera'],['8266','Talavera_Turismo_achanchi.jpg','Sitio arqueológico de Achanchi'],['9024','Talavera_Turismo_sutoqmachay.jpg','Caverna Sutoqmachay']].map(([id,img,title])=>`<button class="tour-photo-card" type="button" data-photo-resource="${id}" aria-label="Ubicar ${esc(title)}"><img loading="lazy" src="./${img}?v=14" alt="${esc(title)} · fotografía incluida en la lámina M11"/><span>${esc(title)}</span></button>`).join('')}</div><p class="tour-photo-credit">Crédito de las fotografías: lámina académica M11 aportada; autoría individual no especificada. Verificar permisos antes de redistribuir públicamente.</p>`;
  $('tourAll').onclick=()=>fit();$('tourUrban').onclick=()=>{if(map)map.flyTo([-13.65372,-73.42867],16,{duration:.8});};
  document.querySelectorAll('[data-photo-resource]').forEach(btn=>btn.onclick=()=>{const linked=document.querySelector(`[data-tour-id="${btn.dataset.photoResource}"]`);if(linked)linked.click();});
  document.querySelectorAll('[data-tour-id]').forEach(btn=>btn.onclick=()=>{const p=facts.find(x=>x.id===btn.dataset.tourId);if(!p)return;selectedResource=p.id;
@@ -386,16 +388,19 @@ async function renderTourismCards(){if(selectedTopic!=='M11')return;
 }
 // V13 · Láminas originales entregadas por el autor, disponibles para consulta y descarga.
 const a3References={
- M10:{pdf:'M10_original_A3.pdf',caption:'Lámina A3 aportada · INEI, Censo 2017 · dos mapas de lengua materna.'},
- M11:{pdf:'M11_original_A3.pdf',caption:'Lámina A3 aportada · Inventario Nacional de Recursos Turísticos de MINCETUR (2025).'},
- M12:{pdf:'M12_original_A3.pdf',caption:'Lámina A3 aportada · INEI, Mapa de Pobreza 2018 · Anexo 3.03 y simulaciones reprocesadas.'}
+ M01:{pdf:null,caption:'Lámina web vectorial de M01 preparada con datos SIG y la lámina de localización aportada; no es el PDF original.'},
+ M10:{pdf:'./Talavera_M10_original_A3.pdf',caption:'Lámina A3 original aportada · INEI, Censo 2017 · quechua y castellano.'},
+ M11:{pdf:'./Talavera_M11_original_A3.pdf',caption:'Lámina A3 original aportada · MINCETUR, Inventario Nacional de Recursos Turísticos (2025).'},
+ M12:{pdf:'./Talavera_M12_original_A3.pdf',caption:'Lámina A3 original aportada · INEI, Mapa de Pobreza 2018 · Anexo 3.03 y simulaciones reprocesadas.'}
 };
+const a3WebImage={M01:'./assets/laminas/M01.svg?v=14',M10:'./Talavera_M10_A3.jpg?v=14',M11:'./Talavera_M11_A3.jpg?v=14',M12:'./Talavera_M12_A3.jpg?v=14'};
+const a3ImageFor=id=>a3WebImage[id]||('./assets/laminas/'+id+'.jpg');
 function updateA3Panel(){
  const spec=a3References[selectedTopic],download=$('downloadA3'),note=$('a3SourceNote'),bar=$('a3Switch');
  download.hidden=!spec;note.hidden=!spec;bar.hidden=!['M10','M12'].includes(selectedTopic);
  const classWrap=$('classMethodWrap'),method=$('classMethod');if(classWrap&&selectedTopic==='M12'&&selectedVariable==='GRUPO_APU')classWrap.hidden=true;
  if(method&&method.options?.length)method.options[0].textContent=['M10','M12'].includes(selectedTopic)?'Rangos originales de la lámina A3':'Intervalos iguales / cortes documentados';
- if(spec){download.href='./assets/laminas_pdf/'+spec.pdf;download.setAttribute('download',spec.pdf);note.textContent=spec.caption;}
+ if(spec){const link=spec.pdf||a3WebImage[selectedTopic];download.href=link;download.setAttribute('download',link.split('/').pop().split('?')[0]);download.textContent=spec.pdf?'↓ Descargar lámina original PDF (A3)':'↓ Descargar lámina M01 (SVG)';note.textContent=spec.caption;}
  $('metrics').classList.toggle('metrics-five',Boolean(spec));
  if(bar.hidden){bar.innerHTML='';return;}
  const m10=selectedTopic==='M10',buttons=m10?[
@@ -409,16 +414,17 @@ function renderTopic(){const row=catalog.find(x=>x[0]===selectedTopic);if(!row)r
  $('themeCode').textContent=row[0];$('themeTitle').textContent=row[1];$('themeSubtitle').textContent=selectedTopic==='M10'?'Cultura · Provincia de Andahuaylas · énfasis en Talavera · Censo 2017':selectedTopic==='M12'?'Economía · Provincia de Andahuaylas, Apurímac · Pobreza 2018':row[2]+' · Distrito de Talavera, Andahuaylas, Apurímac';
  $('insightTitle').textContent=row[1];$('insightDescription').textContent=themes[selectedTopic].desc;window.AtlasV12?.onTopic?.();
  $('sourceInfo').textContent='Fuentes: '+themes[selectedTopic].source;
- $('mapThumb').src='./assets/laminas/'+selectedTopic+'.jpg';
- $('mapThumb').alt=(a3References[selectedTopic]?'Lámina original A3 del mapa ':'Lámina de referencia del mapa ')+selectedTopic;
+ $('mapThumb').src=a3ImageFor(selectedTopic);
+ $('mapThumb').alt=(selectedTopic==='M01'?'Lámina web vectorial de localización ':a3References[selectedTopic]?'Lámina original A3 del mapa ':'Lámina de referencia del mapa ')+selectedTopic;
  $('mapThumb').onerror=()=>{$('mapThumb').style.display='none'};
  $('mapThumb').onload=()=>{$('mapThumb').style.display='block'};
  setMetrics(themes[selectedTopic].metrics);updateA3Panel();$('classSummary').hidden=true;$('classSummary').innerHTML='';$('populationRank').hidden=true;$('tourismExplorer').hidden=selectedTopic!=='M11';$('resourceStrip').hidden=selectedTopic!=='M11';showMessage('');setDetails([['Consulta','Selecciona una entidad del mapa o un distrito en el panel lateral']]);nav();layerCheckboxes();setupView();setupVars();setupCategory();setupProximityFilter();window.AtlasV12?.restoreThemeControls?.();updateMapGuide();statisticsPanel();renderTourismCards();showUrbanInset();$('legend').hidden=false;syncLegendButton();drawLayers({resetExtent:true});}
 function syncLegendButton(){const shown=!$('legend').hidden;$('toggleLegend').textContent=shown?'Ocultar leyenda':'Mostrar leyenda';$('toggleLegend').setAttribute('aria-expanded',String(shown));}
-function preview(){const row=catalog.find(x=>x[0]===selectedTopic);$('modalTitle').textContent=row[0]+' · '+row[1];const img='./assets/laminas/'+selectedTopic+'.jpg';
- const original=a3References[selectedTopic];
- $('modalBody').innerHTML=`<img src="${img}" alt="Lámina cartográfica ${selectedTopic}"/><p>${original?'Lámina A3 original aportada para esta versión. Los mapas interactivos utilizan los atributos SIG correspondientes; se respetan los cortes documentados al elegir el método de lámina A3.':'Lámina de referencia del atlas académico.'}</p>${original?`<div class="a3-modal-actions"><a class="button export-primary" href="./assets/laminas_pdf/${original.pdf}" target="_blank" rel="noopener">Abrir PDF A3 original ↗</a><a class="button subtle" href="./assets/laminas_pdf/${original.pdf}" download>Descargar PDF A3</a></div>`:''}`;
- $('modal').showModal()}
+function preview(){const row=catalog.find(x=>x[0]===selectedTopic);$('modalTitle').textContent=row[0]+' · '+row[1];
+ const img=a3ImageFor(selectedTopic),spec=a3References[selectedTopic],pdf=spec?.pdf;
+ const note=selectedTopic==='M01'?'Lámina web vectorial elaborada a partir de las capas SIG y los datos indicados en el PDF M01 entregado. Se puede descargar en SVG; el PDF original M01 no está alojado en este repositorio.':spec?'Esta vista corresponde a la lámina A3 aportada. Para descargar el PDF original, utiliza el enlace siguiente.':'Lámina de referencia del atlas.';
+ $('modalBody').innerHTML=`<img src="${img}" alt="Lámina cartográfica ${selectedTopic}"/><p>${esc(note)}</p>${pdf?`<div class="a3-modal-actions"><a class="button export-primary" href="${pdf}" target="_blank" rel="noopener">Abrir PDF A3 original ↗</a><a class="button subtle" href="${pdf}" download>Descargar PDF A3</a></div>`:selectedTopic==='M01'?`<div class="a3-modal-actions"><a class="button export-primary" href="${img}" download="Talavera_M01_lamina_web.svg">Descargar M01 (SVG)</a></div>`:''}`;
+ $('modal').showModal();}
 function downloadGeoJSON(){if(!activeData?.features?.length){showMessage('Para descargar una capa espacial necesitas primero ejecutar el exportador con tus GeoParquet locales.');return}
  const blob=new Blob([JSON.stringify(activeData)],{type:'application/geo+json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Talavera_'+selectedTopic+'_capas_activas.geojson';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function search(){const query=$('search').value.trim().toLocaleLowerCase('es');if(!query)return;
@@ -433,7 +439,7 @@ function about(){ $('modalTitle').textContent='Acerca del Atlas Geográfico-Soci
 async function init(){initMap();
  const [m,s]=await Promise.all([getJSON('data/catalogo_capas.json'),getJSON('data/estadisticas_20.json')]);
  manifest=m||{capas:{},temas:{},rasters:[]};stats=Array.isArray(s)?s:[];const query=new URLSearchParams(location.search),requestedTheme=query.get('map');if(catalog.some(x=>x[0]===requestedTheme))selectedTopic=requestedTheme;const requestedVariable=query.get('variable');if((variablePresets[selectedTopic]||[]).some(x=>x[0]===requestedVariable))selectedVariable=requestedVariable;if(!m||Object.keys(manifest.capas||{}).length<20)showMessage('No se cargó el catálogo completo V13. Comprueba que abriste esta carpeta desde el servidor HTTP correcto.');statByCode=new Map(stats.map(x=>[String(x.UBIGEO),x]));
- $('qualityStatus').textContent=`V13 · ${stats.length} distritos en tablas · ${Object.keys(manifest.capas||{}).length} capas espaciales preparadas · ${(manifest.rasters||[]).length} rásteres. ${Object.keys(manifest.capas||{}).length<=1?'Ejecuta el exportador para habilitar las capas M01–M10 y M12.':''}`;
+ $('qualityStatus').textContent=`V14 · ${stats.length} distritos en tablas · ${Object.keys(manifest.capas||{}).length} capas espaciales preparadas · ${(manifest.rasters||[]).length} rásteres. ${Object.keys(manifest.capas||{}).length<=1?'Ejecuta el exportador para habilitar las capas M01–M10 y M12.':''}`;
  renderTopic();
  if(catalog.some(x=>x[0]===requestedTheme)){$('landing').classList.add('hidden');$('landing').setAttribute('aria-hidden','true');if(map)setTimeout(()=>map.invalidateSize(),100);}
  $('enterAtlas').onclick=()=>{$('landing').classList.add('hidden');$('landing').setAttribute('aria-hidden','true');if(map)setTimeout(()=>map.invalidateSize(),100)};
