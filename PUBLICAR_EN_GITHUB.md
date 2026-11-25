@@ -1,17 +1,28 @@
-# Publicación del Atlas Talavera V10 en GitHub Pages
+# Subir Atlas Talavera V11 a GitHub Pages
 
-Este paquete corresponde a un sitio estático. **No debe copiarse al repositorio de Lima–Satipo.**
+**ATENCIÓN:** Este paquete corresponde únicamente al repositorio **`atlas-talavera-geografia-humana`**. No subir al repositorio `atlas-lima-satipo-2026`.
 
-1. Descomprime `Atlas_Talavera_V10_GitHub_Pages.zip`. La carpeta resultante debe contener `index.html` directamente, junto con `.nojekyll`, `app.js`, `styles.css`, `data/` y `assets/`.
-2. En GitHub, crea un repositorio **nuevo y público**, nombre sugerido `atlas-talavera-geografia-humana`. No es el repositorio `atlas-lima-satipo-2026`.
-3. Entra al nuevo repositorio, selecciona **Add file → Upload files** y carga **todo el contenido de la carpeta descomprimida** (no el ZIP como un único archivo). Alternativamente usa GitHub Desktop para crear y publicar el repositorio desde la carpeta extraída.
-4. Ve a **Settings → Pages**. En **Build and deployment** usa **Deploy from a branch**, rama `main`, carpeta `/(root)`. Guarda.
-5. El enlace de publicación previsto es `https://pierojesusmoralesfigueroa-a11y.github.io/atlas-talavera-geografia-humana/` una vez creado y desplegado. No se ha creado ese sitio automáticamente desde esta entrega.
-6. Abre el sitio y prueba M02, M04, M05 (primaria/secundaria), M07 y M11. GitHub Pages requiere conexión para Leaflet/OpenStreetMap. Si ves una versión anterior, recarga forzada con **Ctrl + F5**.
+## Opción recomendada: actualización rápida
 
-**Nota técnica:** los archivos GeoJSON, imágenes y scripts son estáticos y están referenciados por rutas relativas `./`; por eso funcionan cuando el atlas se publica dentro de la subcarpeta del repositorio en GitHub Pages.
+1. Descarga `Actualizacion_Talavera_V10_a_V11.zip` y extráelo.
+2. Abre exactamente: https://github.com/pierojesusmoralesfigueroa-a11y/atlas-talavera-geografia-humana/upload/main
+3. En la cabecera verifica que el repositorio se llame **atlas-talavera-geografia-humana** y la rama sea **main**.
+4. Arrastra **los archivos descomprimidos**, no el ZIP: `index.html`, `app.js`, `styles.css`, `atlas_export.js`, `README.md`, `VERIFICACION_V11.md` y `PUBLICAR_EN_GITHUB.md`.
+5. Verifica especialmente que **`atlas_export.js`** aparece en la raíz. Sin este archivo, las descargas PNG y SVG no funcionarán.
+6. Escribe como commit `Atlas Talavera V11: diseño, etiquetas y exportación cartográfica` y pulsa **Commit changes**.
+7. En la pestaña Actions comprueba que **pages build and deployment** concluya en verde.
+8. Abre https://pierojesusmoralesfigueroa-a11y.github.io/atlas-talavera-geografia-humana/?v=11 y presiona Ctrl+F5. En la cabecera debe leerse **V11**.
 
+## Verificación rápida
 
-### Actualizar el repositorio existente de Talavera
+- M07: cuatro colores de proximidad, sin que desaparezcan los demás al seleccionar una clase.
+- Panel izquierdo: controles de etiquetas y tamaño de símbolos.
+- M02: círculos proporcionales a población y etiquetas al acercar.
+- Descarga: botón superior «Descargar mapa» → PNG o SVG.
+- PNG y SVG exportan datos vectoriales locales sin mosaicos base externos; para los datos originales usa «Descargar GeoJSON».
 
-En `atlas-talavera-geografia-humana`, abre **Add file → Upload files** (o usa GitHub Desktop). Sube el contenido extraído de V10 a la raíz, reemplazando `index.html`, `app.js`, `styles.css`, `README.md` y agregando `VERIFICACION_V10.md`. Mantén las carpetas `assets/` y `data/` intactas. Confirma **Commit changes** en `main`; GitHub Pages desplegará automáticamente. Luego abre la web con Ctrl+F5 para evitar CSS o JS antiguos.
+## Si solo tienes el paquete completo
+
+Extrae `Atlas_Talavera_V11_Profesional_GitHub_Pages.zip` y sube su **contenido** a un repositorio nuevo, con `index.html` en la raíz, junto con `assets/` y `data/`. GitHub Pages: rama main / (root).
+
+**Recuerda:** no mezcles estos archivos con el atlas Lima–Satipo.

@@ -7,13 +7,13 @@
   <meta name="description" content="Atlas geográfico-social interactivo del distrito de Talavera, Andahuaylas, Apurímac. Proyecto académico de Piero Morales." />
   <title>Atlas Geográfico-Social de Talavera · UNMSM</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="./styles.css?v=10.0" />
+  <link rel="stylesheet" href="./styles.css?v=11.0" />
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="brandmark" aria-hidden="true">▦</span>
-    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V10</small></div>
+    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V11</small></div>
   </div>
   <nav class="nav-actions" aria-label="Acciones principales">
     <span class="unmsm">Universidad Nacional Mayor<br>de San Marcos</span>
@@ -54,11 +54,16 @@
         <label for="category" class="field-label">Tipo de recurso turístico</label>
         <select id="category"></select>
       </div>
+      <div class="atlas-cartotools"><div class="eyebrow">Lectura cartográfica</div>
+        <label for="labelsMode" class="field-label">Etiquetas de localidades</label><select id="labelsMode"><option value="principales">Principales · sin solapamientos</option><option value="todas">Más etiquetas según zoom</option><option value="ocultar">Sin etiquetas</option></select>
+        <small id="labelCount" class="atlas-control-hint">Etiquetas adaptadas a la escala</small>
+        <label for="symbolSize" class="field-label">Tamaño de los símbolos</label><select id="symbolSize"><option value="0.82">Compacto</option><option value="1" selected>Equilibrado</option><option value="1.25">Grande</option></select>
+      </div>
       <label class="checkrow"><input id="toggleDistricts" type="checkbox" checked /> Mostrar límites distritales</label>
       <label class="checkrow"><input id="toggleTalavera" type="checkbox" checked /> Resaltar Talavera</label>
       <label for="basemap" class="field-label">Mapa base</label>
       <select id="basemap"><option value="osm">OpenStreetMap (sin clave)</option><option value="topo">Relieve topográfico</option><option value="none">Sin mapa base</option></select>
-      <div class="filter-actions"><button id="fit" class="button">Centrar mapa</button><button id="download" class="button subtle">Exportar GeoJSON</button></div>
+      <div class="filter-actions"><button id="fit" class="button">Centrar mapa</button><button id="download" class="button subtle">Datos GeoJSON</button></div>
     </section>
     <div id="qualityStatus" class="sidebar-status" aria-live="polite">Comprobando capas disponibles…</div>
     <div class="sidebar-foot"><strong>Interpretación:</strong> las distancias son euclidianas y no describen tiempos de viaje. Haz clic en cualquier símbolo para conocer sus datos.<br><br>Fuentes: INEI · MINCETUR · MTC · MINAM · otros organismos oficiales.<br>Indicadores: consultar siempre año, escala y metodología.</div>
@@ -69,7 +74,7 @@
         <h1 id="themeTitle">Recursos turísticos y patrimonio territorial</h1>
         <p id="themeSubtitle">Distrito de Talavera · Andahuaylas · Apurímac</p>
       </div>
-      <div class="header-tools"><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button" aria-expanded="true" aria-controls="legend">Ocultar leyenda</button></div>
+      <div class="header-tools"><button id="exportAtlas" class="button export-primary">↓ Descargar mapa</button><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button" aria-expanded="true" aria-controls="legend">Ocultar leyenda</button></div>
     </div>
     <div class="metrics" id="metrics"></div><div id="resourceStrip" class="resource-strip" hidden aria-label="Explorador rápido de recursos turísticos"></div>
     <div class="map-layout">
@@ -95,7 +100,7 @@
         <p class="micro" id="sourceInfo"></p>
       </section>
     </div>
-    <div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V10 · Atlas cartográfico interactivo</span></div>
+    <div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V11 · Atlas cartográfico interactivo</span></div>
   </section>
 </main>
 <div class="landing" id="landing" role="dialog" aria-label="Presentación del atlas" aria-modal="true">
@@ -109,11 +114,13 @@
     <div class="landing-stats"><span><strong>12</strong> mapas temáticos</span><span><strong>20</strong> distritos para comparar</span><span><strong>2026</strong> elaboración</span></div>
   </div>
 </div>
+<dialog id="exportDialog" class="atlas-export-dialog"><div class="modal-head"><div><div class="eyebrow">Salida cartográfica · V11</div><h2>Descargar la vista del mapa</h2></div><button id="closeExport" class="button subtle">Cerrar ✕</button></div><p>Se exporta la extensión visible como <b>mapa temático vectorial</b>, con título, leyenda, escala y fuentes. La imagen base de OpenStreetMap/OpenTopoMap no se incorpora al archivo exportado; los datos propios sí.</p><div class="export-choices"><button id="exportPNG" class="button export-primary" type="button">Descargar PNG (alta resolución)</button><button id="exportSVG" class="button subtle" type="button">Descargar SVG (editable)</button><button id="exportGeoJSON" class="button subtle" type="button">Descargar GeoJSON</button></div><div id="exportFeedback" class="atlas-export-feedback" role="status" aria-live="polite"></div></dialog>
 <dialog id="modal">
   <div class="modal-head"><h2 id="modalTitle">Lámina original</h2><button id="closeModal" class="button subtle">Cerrar ✕</button></div>
   <div id="modalBody"></div>
 </dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="./app.js?v=10.0"></script>
+<script src="./app.js?v=11.0"></script>
+<script src="./atlas_export.js?v=11.0"></script>
 </body>
 </html>
