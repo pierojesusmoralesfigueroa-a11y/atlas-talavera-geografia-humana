@@ -54,7 +54,7 @@ No requiere que funcione Python en GitHub Pages, porque el navegador consume dir
 
 Fuentes: INEI, MINSA/SUSALUD, MINEDU, MTC-Provías, MINAM, MIDAGRI, INGEMMET, MINCETUR y cartografía administrativa. Para la procedencia concreta de los datos consulta las láminas A3 y la documentación del proyecto.
 
-**Comprobación:** el contenido y la sintaxis JavaScript se validaron con herramientas automáticas. La interacción gráfica completa debe verificarse al abrir la V9 en tu navegador; el navegador automatizado de este entorno no puede acceder a páginas locales.
+**Comprobación:** el contenido y la sintaxis JavaScript se validaron con herramientas automáticas. La interacción gráfica completa debe verificarse al abrir la V10 en tu navegador; el navegador automatizado de este entorno no puede acceder a páginas locales.
 
 ## Ajustes profesionales de la versión 9
 
@@ -68,3 +68,13 @@ Fuentes: INEI, MINSA/SUSALUD, MINEDU, MTC-Provías, MINAM, MIDAGRI, INGEMMET, MI
 - **Vistas de apoyo M10, M11 y M12:** imágenes JPG producidas a partir de las geometrías y valores realmente incluidos. No se presentan como láminas A3 originales.
 
 Para la publicación se recomienda crear el repositorio **`atlas-talavera-geografia-humana`** en la cuenta `pierojesusmoralesfigueroa-a11y`, independiente del repositorio existente `atlas-lima-satipo-2026`. Tras configurar Pages, la dirección sería `https://pierojesusmoralesfigueroa-a11y.github.io/atlas-talavera-geografia-humana/` (solo funcionará cuando publiques los archivos).
+
+
+## Corrección V10 · leyenda de proximidad (M04, M05 y M07)
+
+- La leyenda temática permanece activa, incluso cuando se selecciona una vista de **solo equipamientos** o **solo red vial**. En ese caso se aclara que los puntos por distancia están ocultos y se ofrece restaurarlos.
+- Las cuatro clases conservan exactamente los intervalos y recuentos de los GeoJSON originales. La nueva paleta y el borde oscuro hacen los círculos más legibles sobre el mapa base.
+- Las filas de la leyenda son interactivas: selecciona una categoría para mostrar únicamente sus centros poblados. «Mostrar todas las clases» restaura la selección completa.
+- Al abrir M04 y M05 se prioriza una vista de distancia sin símbolos de establecimientos que tapen los círculos. El selector lateral permite volver a mostrar los equipamientos en cualquier momento.
+- La leyenda vuelve a mostrarse al cambiar de tema. Los cambios de filtro o de capa conservan el zoom y la posición del mapa; el ajuste de extensión solo ocurre al cambiar de tema o pulsar «Centrar mapa».
+- **Interpretación:** las distancias proceden de análisis Near y representan distancia euclidiana, no rutas ni minutos de viaje. No deben interpretarse como disponibilidad real o calidad de los servicios.

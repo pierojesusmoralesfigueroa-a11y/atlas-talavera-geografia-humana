@@ -7,13 +7,13 @@
   <meta name="description" content="Atlas geográfico-social interactivo del distrito de Talavera, Andahuaylas, Apurímac. Proyecto académico de Piero Morales." />
   <title>Atlas Geográfico-Social de Talavera · UNMSM</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="./styles.css?v=9.0" />
+  <link rel="stylesheet" href="./styles.css?v=10.0" />
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="brandmark" aria-hidden="true">▦</span>
-    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V9</small></div>
+    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V10</small></div>
   </div>
   <nav class="nav-actions" aria-label="Acciones principales">
     <span class="unmsm">Universidad Nacional Mayor<br>de San Marcos</span>
@@ -69,7 +69,7 @@
         <h1 id="themeTitle">Recursos turísticos y patrimonio territorial</h1>
         <p id="themeSubtitle">Distrito de Talavera · Andahuaylas · Apurímac</p>
       </div>
-      <div class="header-tools"><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button">Leyenda</button></div>
+      <div class="header-tools"><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button" aria-expanded="true" aria-controls="legend">Ocultar leyenda</button></div>
     </div>
     <div class="metrics" id="metrics"></div><div id="resourceStrip" class="resource-strip" hidden aria-label="Explorador rápido de recursos turísticos"></div>
     <div class="map-layout">
@@ -95,7 +95,7 @@
         <p class="micro" id="sourceInfo"></p>
       </section>
     </div>
-    <div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V9 · Atlas cartográfico interactivo</span></div>
+    <div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V10 · Atlas cartográfico interactivo</span></div>
   </section>
 </main>
 <div class="landing" id="landing" role="dialog" aria-label="Presentación del atlas" aria-modal="true">
@@ -114,6 +114,6 @@
   <div id="modalBody"></div>
 </dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="./app.js?v=9.0"></script>
+<script src="./app.js?v=10.0"></script>
 </body>
 </html>
