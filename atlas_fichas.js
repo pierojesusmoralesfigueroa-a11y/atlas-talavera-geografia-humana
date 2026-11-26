@@ -17,10 +17,10 @@ function open(){
 }
 function printReport(){
  const id=idNow(),sheet=document.getElementById('printSheet');if(!sheet)return;
- sheet.innerHTML=make(id,true);window.print();
+ sheet.innerHTML=make(id,true);window.AtlasLanguage?.paintNow?.();window.print();
 }
 function download(){
- const id=idNow(),blob=new Blob([lines(id)],{type:'text/plain;charset=utf-8'});
+ const id=idNow(),raw=lines(id),text=window.AtlasLanguage?.getLanguage()==='qu'?raw.split('\n').map(line=>window.AtlasLanguage.translate(line)).join('\n'):raw,blob=new Blob([text],{type:'text/plain;charset=utf-8'});
  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='Talavera_'+id+'_informe_tecnico.txt';document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},3000);
 }
 document.addEventListener('DOMContentLoaded',function(){

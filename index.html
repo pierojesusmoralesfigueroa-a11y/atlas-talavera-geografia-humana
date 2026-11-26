@@ -7,15 +7,16 @@
   <meta name="description" content="Atlas geográfico-social interactivo del distrito de Talavera, Andahuaylas, Apurímac. Proyecto académico de Piero Morales." />
   <title>Atlas Geográfico-Social de Talavera · UNMSM</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <link rel="stylesheet" href="./styles.css?v=15" />
+  <link rel="stylesheet" href="./styles.css?v=16" />
 </head>
 <body>
 <header class="topbar">
   <div class="brand">
     <span class="brandmark" aria-hidden="true">▦</span>
-    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V15</small></div>
+    <div><strong>ATLAS TALAVERA</strong><small>Geografía humana · UNMSM · 2026-II · V16</small></div>
   </div>
   <nav class="nav-actions" aria-label="Acciones principales">
+    <label class="atlas-language"><span>Idioma / Simi</span><select id="languageSelect" class="atlas-lang-select" aria-label="Elegir idioma"><option value="es">Español</option><option value="qu">Qichwa Chanka</option></select></label>
     <span class="unmsm">Universidad Nacional Mayor<br>de San Marcos</span>
     <button id="openAbout" class="nav-button" type="button">Sobre el proyecto</button>
     <button id="openHome" class="nav-button" type="button">Portada</button>
@@ -76,6 +77,7 @@
       </div>
       <div class="header-tools"><button id="openComparator" class="button subtle" type="button" hidden>Comparar distancias</button><button id="togglePresentation" class="button subtle" type="button" aria-pressed="false">Modo presentación</button><button id="shareMap" class="button subtle" type="button">Compartir vista</button><button id="exportAtlas" class="button export-primary">↓ Descargar mapa</button><button id="showOriginal" class="button subtle">Ver lámina A3</button><button id="toggleLegend" class="button" aria-expanded="true" aria-controls="legend">Ocultar leyenda</button></div>
     </div>
+    <div id="languageHint" class="atlas-language-hint" hidden>Qichwa chanka · Traducción inicial sin revisión comunitaria. Los nombres, datos y PDF originales conservan sus fuentes.</div>
     <div class="metrics" id="metrics"></div><div id="a3Switch" class="a3-switch" hidden aria-label="Alternar representaciones de la lámina A3"></div><div id="resourceStrip" class="resource-strip" hidden aria-label="Explorador rápido de recursos turísticos"></div>
     <div class="map-layout">
       <div class="map-holder">
@@ -100,7 +102,7 @@
         <p class="micro" id="sourceInfo"></p>
       </section>
     </div>
-    <div id="atlasStatus" class="atlas-status" role="status" aria-live="polite" hidden></div><div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V15 · Atlas cartográfico interactivo</span></div>
+    <div id="atlasStatus" class="atlas-status" role="status" aria-live="polite" hidden></div><div class="bottomline"><span>Proyecto académico · Piero Morales · UNMSM · 2026</span><span>V16 · Atlas cartográfico interactivo</span></div>
   </section>
 </main>
 <div class="landing" id="landing" role="dialog" aria-label="Presentación del atlas" aria-modal="true">
@@ -109,12 +111,13 @@
       <div class="landing-eyebrow">UNMSM · INGENIERÍA GEOGRÁFICA · ATLAS INTERACTIVO 2026</div>
       <h1>Un territorio,<br><em>doce miradas.</em></h1>
       <p>Explora la población, la cultura, los servicios, la conectividad, la economía y el paisaje de Talavera mediante cartografía y datos oficiales.</p>
+      <div class="landing-language"><label for="landingLanguageSelect">Idioma / Simi</label><select id="landingLanguageSelect" class="atlas-lang-select" aria-label="Elegir idioma"><option value="es">Español</option><option value="qu">Qichwa Chanka</option></select></div>
       <div class="landing-actions"><button id="enterAtlas" class="button primary">Explorar el atlas</button><button id="landingAbout" class="button light">Conocer el proyecto</button></div>
     </div>
     <div class="landing-stats"><span><strong>12</strong> mapas temáticos</span><span><strong>20</strong> distritos para comparar</span><span><strong>2026</strong> elaboración</span></div>
   </div>
 </div>
-<dialog id="compareDialog" class="atlas-compare-dialog" aria-labelledby="compareTitle"><div class="modal-head"><div><div class="eyebrow">Análisis territorial · 67 centros poblados</div><h2 id="compareTitle">Comparador de proximidad</h2></div><button id="closeComparator" class="button subtle" type="button">Cerrar ✕</button></div><p>Distancias euclidianas (Near), calculadas desde cada centro poblado a salud, educación primaria, secundaria y vías principales. <strong>No son tiempos de viaje ni recorridos por carretera.</strong></p><div class="compare-toolbar"><label for="compareQuery">Buscar centro poblado<input id="compareQuery" type="search" placeholder="Ej.: KISHUARPATA" /></label><label for="compareSort">Ordenar según<select id="compareSort"><option value="name">Nombre A–Z</option><option value="health">Mayor distancia a salud</option><option value="primary">Mayor distancia a primaria</option><option value="secondary">Mayor distancia a secundaria</option><option value="road">Mayor distancia a vías</option></select></label></div><div class="compare-overview" id="compareOverview"></div><div class="compare-table-wrap"><table class="compare-table"><thead><tr><th scope="col">Centro poblado</th><th scope="col">Salud</th><th scope="col">Primaria</th><th scope="col">Secundaria</th><th scope="col">Vías</th></tr></thead><tbody id="compareTableBody"></tbody></table></div><div class="compare-foot"><span id="compareCount"></span><button type="button" id="compareCSV" class="button export-primary">Descargar CSV de comparación</button></div></dialog><div id="printSheet" class="print-sheet" aria-hidden="true"></div><dialog id="exportDialog" class="atlas-export-dialog"><div class="modal-head"><div><div class="eyebrow">Salida cartográfica · V15</div><h2>Descargar la vista del mapa</h2></div><button id="closeExport" class="button subtle">Cerrar ✕</button></div><p>Se exporta la extensión visible como <b>mapa temático vectorial</b>, con título, leyenda, escala y fuentes. La imagen base de OpenStreetMap/OpenTopoMap no se incorpora al archivo exportado; los datos propios sí.</p><div class="export-choices"><button id="exportPNG" class="button export-primary" type="button">Descargar PNG (alta resolución)</button><button id="exportSVG" class="button subtle" type="button">Descargar SVG (editable)</button><button id="exportGeoJSON" class="button subtle" type="button">Descargar GeoJSON</button></div><div id="exportFeedback" class="atlas-export-feedback" role="status" aria-live="polite"></div></dialog>
+<dialog id="compareDialog" class="atlas-compare-dialog" aria-labelledby="compareTitle"><div class="modal-head"><div><div class="eyebrow">Análisis territorial · 67 centros poblados</div><h2 id="compareTitle">Comparador de proximidad</h2></div><button id="closeComparator" class="button subtle" type="button">Cerrar ✕</button></div><p>Distancias euclidianas (Near), calculadas desde cada centro poblado a salud, educación primaria, secundaria y vías principales. <strong>No son tiempos de viaje ni recorridos por carretera.</strong></p><div class="compare-toolbar"><label for="compareQuery">Buscar centro poblado<input id="compareQuery" type="search" placeholder="Ej.: KISHUARPATA" /></label><label for="compareSort">Ordenar según<select id="compareSort"><option value="name">Nombre A–Z</option><option value="health">Mayor distancia a salud</option><option value="primary">Mayor distancia a primaria</option><option value="secondary">Mayor distancia a secundaria</option><option value="road">Mayor distancia a vías</option></select></label></div><div class="compare-overview" id="compareOverview"></div><div class="compare-table-wrap"><table class="compare-table"><thead><tr><th scope="col">Centro poblado</th><th scope="col">Salud</th><th scope="col">Primaria</th><th scope="col">Secundaria</th><th scope="col">Vías</th></tr></thead><tbody id="compareTableBody"></tbody></table></div><div class="compare-foot"><span id="compareCount"></span><button type="button" id="compareCSV" class="button export-primary">Descargar CSV de comparación</button></div></dialog><div id="printSheet" class="print-sheet" aria-hidden="true"></div><dialog id="exportDialog" class="atlas-export-dialog"><div class="modal-head"><div><div class="eyebrow">Salida cartográfica · V16</div><h2>Descargar la vista del mapa</h2></div><button id="closeExport" class="button subtle">Cerrar ✕</button></div><p>Se exporta la extensión visible como <b>mapa temático vectorial</b>, con título, leyenda, escala y fuentes. La imagen base de OpenStreetMap/OpenTopoMap no se incorpora al archivo exportado; los datos propios sí.</p><div class="export-choices"><button id="exportPNG" class="button export-primary" type="button">Descargar PNG (alta resolución)</button><button id="exportSVG" class="button subtle" type="button">Descargar SVG (editable)</button><button id="exportGeoJSON" class="button subtle" type="button">Descargar GeoJSON</button></div><div id="exportFeedback" class="atlas-export-feedback" role="status" aria-live="polite"></div></dialog>
 <dialog id="techDialog" class="tech-dialog" aria-labelledby="techHeading">
   <div class="modal-head tech-dialog-head"><div><div class="eyebrow">Metodología · resultados · fuentes</div><h2 id="techHeading">Informe técnico del mapa</h2></div><button id="techClose" class="button subtle" type="button">Cerrar ✕</button></div>
   <div id="techBody" class="tech-body"></div>
@@ -125,7 +128,7 @@
   <div id="modalBody"></div>
 </dialog>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="./app.js?v=15"></script>
-<script src="./atlas_export.js?v=15"></script><script src="./atlas_v12.js?v=15"></script><script src="./atlas_fichas.js?v=15"></script>
+<script src="./app.js?v=16"></script>
+<script src="./atlas_export.js?v=16"></script><script src="./atlas_v12.js?v=16"></script><script src="./atlas_fichas.js?v=16"></script><script src="./atlas_i18n.js?v=16"></script>
 </body>
 </html>

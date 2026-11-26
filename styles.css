@@ -375,3 +375,15 @@ body.atlas-presentation-mode .map-holder,body.atlas-presentation-mode #map{min-h
  #printSheet .tech-section p,#printSheet .tech-section li{font-size:9pt;line-height:1.48}
  #printSheet .tech-note{font-size:8pt}
 }
+
+/* V16: selector de idioma accesible, escritorio y móvil */
+.atlas-language{display:flex;align-items:center;gap:8px;color:#f1f7f5;font-size:11px;font-weight:700;white-space:nowrap}
+.atlas-language span{color:#cbe0e2}
+.atlas-lang-select{min-width:135px;max-width:165px;border:1px solid #a1c1c0;border-radius:8px;background:#f6faf8;color:#15394a;font-size:12px;font-weight:700;padding:8px 10px;cursor:pointer}
+.atlas-lang-select:focus-visible{outline:3px solid #e2bc6d;outline-offset:2px}
+.landing-language{display:flex;align-items:center;gap:12px;margin:14px 0;color:#d3e6e7;font-size:13px;font-weight:750}
+.landing-language select{min-width:170px}
+.atlas-language-hint{margin:0 22px 10px;font-size:11px;color:#335b61;background:#eef5f3;border:1px solid #cde1dc;padding:9px 12px;border-radius:9px;line-height:1.45}
+.atlas-language-hint[hidden]{display:none!important}
+@media(max-width:900px){.nav-actions{gap:6px}.atlas-language{gap:4px}.atlas-language span{display:none}.atlas-lang-select{min-width:120px;max-width:130px;font-size:11px;padding:8px 5px}}
+@media(max-width:540px){.atlas-language{max-width:116px}.atlas-lang-select{min-width:106px;max-width:112px}.nav-actions .nav-button:not(.menu-button){display:none}.brand strong{font-size:13px}.atlas-language-hint{margin:0 12px 8px}}

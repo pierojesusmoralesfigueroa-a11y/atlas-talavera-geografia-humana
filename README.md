@@ -89,3 +89,7 @@ La V14 conecta las rutas reales del repositorio. El PDF original del M01 sigue s
 En la tarjeta de «Lectura e interpretación» de cada mapa (M01–M12) existe el botón **Ver informe técnico**. Se abre una ficha con objetivo, fuentes, datos, procedimientos de ArcGIS Pro, resultados e interpretación y limitaciones. La ficha puede imprimirse como PDF desde el navegador («Imprimir / Guardar PDF») o descargarse como texto. Los procedimientos están resumidos del informe técnico actualizado y las láminas proporcionadas; no se fabricaron registros de geoprocesamiento inexistentes. Las fechas de corte de algunas bases sectoriales quedan por confirmar antes de entregar.
 
 Archivo independiente: `atlas_fichas.js`. Las 12 fichas están integradas en la misma página estática y no requieren servidor adicional.
+
+
+## Atlas V16: interfaz bilingüe
+Selector Español / Qichwa Chanka en la cabecera y la portada. Traducción inicial de navegación, paneles temáticos, interpretaciones y fichas técnicas; los nombres propios, códigos, datos y PDFs/cartografía originales se conservan en su idioma de origen. La variedad elegida es el quechua chanka de Andahuaylas, pero se recomienda validación por hablantes locales antes de considerarla traducción definitiva. Se conserva la elección localmente y en los enlaces compartidos.
